@@ -2,3 +2,81 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+::-moz-selection {
+  color: white;
+  background: #5484dd;
+}
+
+::selection {
+  color: white;
+  background:#5484dd;
+}
+
+input {
+  outline: none;
+}
+
+a {
+  text-decoration: none !important;
+  color: inherit;
+}
+
+.slick-arrow {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #e0eaf9;
+  color: #32489e;
+  opacity: .7;
+  z-index: 20;
+  border-radius: 50%;
+  outline: none;
+}
+
+.slick-prev {
+  left: 10px;
+  opacity: 0;
+  transition: all .3s;
+}
+.slick-next {
+  right: 10px;
+  opacity: 0;
+  transition: all .3s;
+
+}
+
+#slider:hover .slick-next,
+#slider:hover .slick-prev {
+  opacity: 100;
+  transition: all .5s;
+}
+
+.slick-prev:hover, .slick-next:hover {
+  background-color: #5484dd;
+  color: #fff;
+  transition: all .3s;
+}
+
+.slick-dots {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0 20px;
+}
+
+.slick-dots button {
+  font-size: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 100rem;
+  background-color: #eee;
+}
+
+.slick-dots .slick-active button {
+  background-color: #5a0abd;
+}

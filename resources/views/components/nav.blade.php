@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  @vite('resources/css/app.css')
-</head>
-<body>
-  <div class="">Nav layout</div>
-</body>
-</html>
+<nav class="bg-blue-500">
+    <ul class="flex">
+        <li><a href={{route('home')}}>Trang chủ</a></li>
+        <li><a href={{route('products')}}>Sản phẩm</a></li>
+        <li><a href={{route('contact')}}>Liên hệ</a></li>
+    </ul>
+</nav>

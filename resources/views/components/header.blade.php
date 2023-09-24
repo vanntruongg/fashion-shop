@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  @vite('resources/css/app.css')
-</head>
-<body>
-  <div class="">Header layout</div>
-</body>
-</html>
+<header class="flex items-center justify-between px-16 py-3 bg-red-500">
+  <div class=""><img src="" alt=""><span>Logo</span></div>
+  <div class=""><input type="text" placeholder="Tìm kiếm"></div>
+  <div class="flex items-center">
+    <div class=""><i class="fa-solid fa-cart-shopping"></i></div>
+    <span>Đăng nhập</span>
+  </div>
+</header>

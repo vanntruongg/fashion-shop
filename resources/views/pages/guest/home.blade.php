@@ -28,18 +28,9 @@
         <img src="/storage/images/banner/banner-3.jpg" alt="" class="w-full h-full">
       </aside>
       <div class="col-span-9 grid grid-cols-4 gap-4 mt-16">
-        @for ($i = 1; $i <= 4; $i++)
-        <div class="card flex flex-col cursor-pointer group">
-          <img src="/storage/images/products/vest-{{$i}}.jpg" alt="product" class="h-full">
-          <div class="flex flex-col gap-4 p-2 pb-4 font-sans">
-            <h4 class="text-center">Vest xanh đen kẻ sọc</h4>
-            <div class="flex flex-col gap-1">
-              <p class="text-center font-bold">2,890,000₫</p>
-              <div class="flex justify-center"><button class="px-4 py-2 text-center text-14 border rounded-lg transition-all duration-300 hover:bg-primary-600 hover:text-white group-hover:bg-primary-600 group-hover:text-white">Thêm vào giỏ hàng</button></div>
-            </div>
-          </div>
-        </div>
-        @endfor
+        @foreach ($jacket_category as $product)
+            <x-cart-product :product="$product"/>
+        @endforeach
     </section>
     {{-- banner 1 --}}
     <article class="my-10">
@@ -52,18 +43,9 @@
         <img src="/storage/images/banner/banner-5.jpg" alt="" class="w-full h-full">
       </aside>
       <div class="col-span-9 grid grid-cols-4 gap-4 mt-16">
-        @for ($i = 1; $i <= 4; $i++)
-        <div class="card flex flex-col cursor-pointer group">
-          <img src="/storage/images/products/vest-{{$i}}.jpg" alt="product" class="h-full">
-          <div class="flex flex-col gap-4 p-2 pb-4 font-sans">
-            <h4 class="text-center">Vest xanh đen kẻ sọc</h4>
-            <div class="flex flex-col gap-1">
-              <p class="text-center font-bold">2,890,000₫</p>
-              <div class="flex justify-center"><button class="px-4 py-2 text-center text-14 border rounded-lg transition-all duration-300 hover:bg-primary-600 hover:text-white group-hover:bg-primary-600 group-hover:text-white">Thêm vào giỏ hàng</button></div>
-            </div>
-          </div>
-        </div>
-        @endfor
+        @foreach ($t_shirt_category as $product)
+          <x-cart-product :product="$product"/>
+        @endforeach
     </section>
     {{-- Jean - Denim --}}
     <section class="grid grid-cols-12 gap-4 my-10">
@@ -72,18 +54,9 @@
         <img src="/storage/images/banner/banner-3.jpg" alt="" class="w-full h-full">
       </aside>
       <div class="col-span-9 grid grid-cols-4 gap-4 mt-16">
-        @for ($i = 1; $i <= 4; $i++)
-        <div class="card flex flex-col cursor-pointer group">
-          <img src="/storage/images/products/vest-{{$i}}.jpg" alt="product" class="h-full">
-          <div class="flex flex-col gap-4 p-2 pb-4 font-sans">
-            <h4 class="text-center">Vest xanh đen kẻ sọc</h4>
-            <div class="flex flex-col gap-1">
-              <p class="text-center font-bold">2,890,000₫</p>
-              <div class="flex justify-center"><button class="px-4 py-2 text-center text-14 border rounded-lg transition-all duration-300 hover:bg-primary-600 hover:text-white group-hover:bg-primary-600 group-hover:text-white">Thêm vào giỏ hàng</button></div>
-            </div>
-          </div>
-        </div>
-        @endfor
+        @foreach ($jean_category as $product)
+          <x-cart-product :product="$product"/>
+        @endforeach
     </section>
     <article class="my-10 grid grid-cols-3 gap-6">
       <img src="/storage/images/banner/footer1.jpg" alt="banner">
@@ -92,5 +65,4 @@
     </article>
   </main>
 
-@component('components.footer')
-@endcomponent
+  <x-footer :js-file="'resources/js/guest/slider.js'" />

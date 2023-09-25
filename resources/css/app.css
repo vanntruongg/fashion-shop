@@ -13,12 +13,19 @@
   background:#5484dd;
 }
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+
+}
 input {
   outline: none;
 }
 
 a {
-  text-decoration: none !important;
+  text-decoration: none;
   color: inherit;
 }
 

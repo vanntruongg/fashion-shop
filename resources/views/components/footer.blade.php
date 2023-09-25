@@ -17,10 +17,10 @@
       <div class="">
         <h4 class="uppercase pb-2">Thông tin</h4>
         <ul class="text-gray-400">
-          <li>Về chúng tôi</li>
-          <li>Thông tin giao hàng</li>
-          <li>Thông tin bảo mật</li>
-          <li>Điều khoản & Điều kiện</li>
+          <li class=""><a href="" class="hover:text-primary-200 hover:underline">Về chúng tôi</a></li>
+          <li class=""><a href="" class="hover:text-primary-200 hover:underline">Thông tin giao hàng</a></li>
+          <li class=""><a href="" class="hover:text-primary-200 hover:underline">Thông tin bảo mật</a></li>
+          <li class=""><a href="" class="hover:text-primary-200 hover:underline">Điều khoản & Điều kiện</a></li>
         </ul>
       </div>
       {{-- Contact shop --}}
@@ -39,10 +39,10 @@
       <div class="">
         <h4 class="uppercase pb-2">Tư vấn</h4>
         <ul class="text-gray-400">
-          <li>Tư vấn phối đồ</li>
-          <li>Thế giới thời trang</li>
-          <li>Tin khuyến mãi</li>
-          <li>Tin khai trương</li>
+          <li class=""><a href="" class="hover:text-primary-200 hover:underline">Tư vấn phối đồ</a></li>
+          <li class=""><a href="" class="hover:text-primary-200 hover:underline">Thế giới thời trang</a></li>
+          <li class=""><a href="" class="hover:text-primary-200 hover:underline">Tin khuyến mãi</a></li>
+          <li class=""><a href="" class="hover:text-primary-200 hover:underline">Tin khai trương</a></li>
         </ul>
       </div>
     </div>
@@ -52,5 +52,11 @@
       <p> Make by ❤️ 3TL Team</p>
     </div>
   </footer>
+
+  
+  @if ($jsFile)
+        @vite($jsFile)
+  @endif
 </body>
+
 </html>

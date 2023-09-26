@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartContronller;
+use App\Http\Controllers\CheckOutContronller;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductsController;
@@ -26,4 +27,7 @@ Route::get('/product/detail/{id}', [ProductsController::class, 'product_detail']
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 
 // cart
+Route::get('/cart', [CartContronller::class, 'index'])->name('cart');
 Route::post('/cart/add', [CartContronller::class, 'requestAddProduct'])->name('cart.add');
+//checkout
+Route::get('/checkout', [CheckOutContronller::class, 'index'])->name('checkout');

@@ -8,7 +8,7 @@ class CartContronller extends Controller
 {
     //
     function index() {
-        return "index cart";
+        return view('pages.guest.cart');
     }
 
     function requestAddProduct(Request $request) {

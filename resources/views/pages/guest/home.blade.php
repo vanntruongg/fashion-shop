@@ -29,7 +29,7 @@
       </aside>
       <div class="col-span-9 grid grid-cols-4 gap-4 mt-16">
         @foreach ($jacket_category as $product)
-            <x-cart-product :product="$product"/>
+            <x-card-product :product="$product"/>
         @endforeach
     </section>
     {{-- banner 1 --}}
@@ -44,7 +44,7 @@
       </aside>
       <div class="col-span-9 grid grid-cols-4 gap-4 mt-16">
         @foreach ($t_shirt_category as $product)
-          <x-cart-product :product="$product"/>
+          <x-card-product :product="$product"/>
         @endforeach
     </section>
     {{-- Jean - Denim --}}
@@ -55,7 +55,7 @@
       </aside>
       <div class="col-span-9 grid grid-cols-4 gap-4 mt-16">
         @foreach ($jean_category as $product)
-          <x-cart-product :product="$product"/>
+          <x-card-product :product="$product"/>
         @endforeach
     </section>
     <article class="my-10 grid grid-cols-3 gap-6">

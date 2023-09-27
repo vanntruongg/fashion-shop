@@ -29,4 +29,10 @@ class CartContronller extends Controller
         // insert into table cart & cart_detail
         dd($productId, $quantity);
     }
+
+
+    function updateQuantity(Request $request) {
+        // dd($request);
+        return response()->json(['message' => 'Cart updated successfully']);
+    }
 }

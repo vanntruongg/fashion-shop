@@ -29,5 +29,8 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 // cart
 Route::get('/cart', [CartContronller::class, 'index'])->name('cart');
 Route::post('/cart/add', [CartContronller::class, 'requestAddProduct'])->name('cart.add');
+
+Route::post('/update-quantity-cart', [CartContronller::class, 'updateQuantity']);
 //checkout
 Route::get('/checkout', [CheckOutContronller::class, 'index'])->name('checkout');
+Route::post('/create-order', [CheckOutContronller::class, 'createOrder'])->name('create-order');

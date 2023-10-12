@@ -271,7 +271,7 @@ class ProductsController extends Controller
             ['path' => request()->url()]
         );
         // $data = DB::table('products')->paginate(10);
-        return view('pages.guest.products', ['products' => $panigator]);
+        return view('pages.guest.products', ['products' => $panigator, 'title_search' => null]);
     }
 
 
@@ -284,5 +284,36 @@ class ProductsController extends Controller
             'image' => '/storage/images/products/vest-2.jpg',
         ];
         return view('pages.guest.product-detail', compact('product'));
+    }
+
+
+    function search(Request $request) {
+        // dd($request);
+        $searchTerm = $request->input('key');
+        // $results=[];
+        // $products =  [
+        //     (object)[
+        //         'id' => 1,
+        //         'name' => 'Áo Vest đen bóng',
+        //         'price' => 4790000,
+        //         'image' => '/storage/images/products/vest-2.jpg',
+        //     ]
+        // ];
+        $results = DB::table('sanpham')
+                        ->where('SP_Ten', 'like', '%' . $searchTerm . '%')
+                        ->get()->toArray();
+        $page = 10;
+
+        $currentPage = request()->get('page', 1);
+
+        $panigator = new LengthAwarePaginator(
+            array_slice($results, ($currentPage - 1) * $page, $page),
+            count($results),
+            $page,
+            $currentPage,
+            ['path' => request()->url()]
+        );
+        
+        return view('pages.guest.products', ['products' => $panigator, 'title_search' => 'Kết quả tìm kiếm']);
     }
 }

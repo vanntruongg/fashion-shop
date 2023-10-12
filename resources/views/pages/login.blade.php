@@ -38,7 +38,7 @@
         </div>
         <div class="my-4">
             <button class="w-[60%] text-center mx-auto block bg-[#3b5998] px-10 py-4 rounded-lg">
-               <span class="text-white font-bold">facebook</span>
+                <span class="text-white font-bold">facebook</span>
             </button>
         </div>
         <div class="">

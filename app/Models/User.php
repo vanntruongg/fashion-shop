@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Auth;
 
 class User extends Authenticatable
 {
@@ -18,9 +19,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'ND_Ho',
         'email',
         'password',
+        'ND_Ten',
+        'ND_VT',
+        'ND_SDT',
     ];
 
     /**
@@ -42,4 +46,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function isAdmin() : bool {
+        if(Auth::check() && Auth::user()->ND_VT == 1) {
+            return true;
+        } 
+        return false;
+    }
 }

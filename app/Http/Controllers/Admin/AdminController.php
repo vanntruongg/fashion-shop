@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -30,7 +31,6 @@ class AdminController extends Controller
     }
 
     public function users(Request $request) {
-       
         $page = $request->query('page', 1);
         $data = DB::table('users')
         ->join('vaitro', 'users.ND_VT', '=', 'vaitro.VT_Ma')

@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\CartContronller;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CheckOutContronller;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
@@ -11,9 +10,9 @@ use App\Http\Controllers\Admin\Product\ProductController;
 use App\Http\Controllers\Admin\Product\CategoryController;
 use App\Http\Controllers\Admin\Product\PortfolioConTroller;
 use App\Http\Controllers\Admin\User\UserController;
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Admin\AdminController;
 
 
 

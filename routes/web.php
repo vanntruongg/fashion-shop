@@ -1,10 +1,16 @@
 <?php
 
 use App\Http\Controllers\CartContronller;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CheckOutContronller;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductsController;
+
+use App\Http\Controllers\Admin\Product\ProductController;
+use App\Http\Controllers\Admin\Product\CategoryController;
+use App\Http\Controllers\Admin\Product\PortfolioConTroller;
+use App\Http\Controllers\Admin\User\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\AdminController;
@@ -41,6 +47,15 @@ Route::post('/update-quantity-cart', [CartContronller::class, 'updateQuantity'])
 Route::get('/checkout', [CheckOutContronller::class, 'index'])->name('checkout');
 Route::post('/create-order', [CheckOutContronller::class, 'createOrder'])->name('create-order');
 
+//admin routes 
+Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin-dashboard');
+Route::get('/admin/product', [AdminController::class, 'product'])->name('admin-product');
+Route::get('/admin/categoryproduct', [AdminController::class, 'category'])->name('admin-category');
+Route::get('/admin/users', [AdminController::class, 'users'])->name('admin-users');
+Route::get('/admin/product/new-product', [ProductController::class, 'newProduct'])->name('new-product');
+Route::get('/admin/product/new-category', [CategoryController::class, 'newCategory'])->name('new-category');
+Route::get('/admin/product/new-portfolio', [PortfolioConTroller::class, 'newPortfolio'])->name('new-portfolio');
+Route::get('/admin/users/new-users', [UserController::class, 'newUser'])->name('new-users');
 
 //Auth
 //Login

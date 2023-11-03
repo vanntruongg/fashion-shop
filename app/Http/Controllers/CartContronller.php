@@ -6,34 +6,37 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+use function Laravel\Prompts\table;
+
 class CartContronller extends Controller
 {
     //
     function index() {
+        if(!Auth::check()) {
+            return view("pages.login");
+        }
 
         $userId = Auth::id();
 
         // Sử dụng câu lệnh SQL trực tiếp để lấy tất cả sản phẩm của người dùng đang đăng nhập
-        $carts = DB::table('giohang')
-        ->join('chitietgiohang', 'giohang.GH_Ma', '=', 'chitietgiohang.GH_Ma')
-        ->join('sanpham', 'chitietgiohang.SP_Ma', '=', 'sanpham.SP_Ma')
-        ->where('giohang.ND_id', $userId)
-        ->select('chitietgiohang.*', 'sanpham.SP_Ten', 'sanpham.SP_Gia')
-        ->get();
-        dd($carts);
+        $products = $this->getDataCart();
+        // dd($products);
 
-        $carts = DB::table('giohang')->get();
-        return view('pages.guest.cart',compact('carts'));
+        // $carts = DB::table('giohang')->get();
+
+        // dd($carts)
+        return view('pages.guest.cart', compact('products')); 
     }
 
     function requestAddProduct(Request $request) {
         // dd($request);
         $productId = $request->input('product_id');
         $quantity = $request->input('quantity');
-        $action = $request->input('product_id');
-
-        if ($action === 'add') {
+        $action = $request->input('action');
+        // dd($action, $action === 'add');
+        if($action === 'add') {
             $this->addToCart($productId, $quantity);
+            return redirect()->route('products');
         } else if ($action === 'add_and_checkout') {
             $this->addToCart($productId, $quantity);
             return redirect()->route('checkout');
@@ -42,7 +45,7 @@ class CartContronller extends Controller
 
     function addToCart($productId, $quantity) {
 
-        //  dd($productId, $quantity);
+        // dd($productId, $quantity);
         $userId = Auth::id();
         $cart = DB::table('giohang')
         ->where('ND_id', $userId)
@@ -54,7 +57,7 @@ class CartContronller extends Controller
                 'ND_id' => $userId
             ]);
         } else {
-            $cartId = $cart->cart_id;
+            $cartId = $cart->GH_Ma;
         }
 
         // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng hay chưa
@@ -69,7 +72,7 @@ class CartContronller extends Controller
                 ->where('GH_Ma', $cartId)
                 ->where('SP_Ma', $productId)
                 ->update([
-                    'CTGH_SoLuong' => $cartProduct->quantity + $quantity
+                    'CTGH_SoLuong' => $cartProduct->CTGH_SoLuong + $quantity
                 ]);
         } else {
             // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm mới sản phẩm
@@ -79,12 +82,39 @@ class CartContronller extends Controller
                 'CTGH_SoLuong' => $quantity
             ]);
         }
-        return redirect()->back()->with('success', 'Sản phẩm đã được thêm vào giỏ hàng.');
     }
 
 
     function updateQuantity(Request $request) {
         // dd($request);
-        return response()->json(['message' => 'Cart updated successfully']);
+        $productId = $request->input('productId');
+        $quantity = $request->input('quantity');
+        DB::table('chitietgiohang')
+        ->where('SP_Ma', $productId)
+        ->update(['CTGH_SoLuong' => $quantity]);
+
+        $products = $this->getDataCart();
+        
+        return response()->json(['message' => 'Cart updated successfully', 'products' => $products]);
+    }
+
+    function getDataCart() {
+        $userId = Auth::id();
+
+        return DB::table('giohang')
+        ->join('chitietgiohang', 'giohang.GH_Ma', '=', 'chitietgiohang.GH_Ma')
+        ->join('sanpham', 'chitietgiohang.SP_Ma', '=', 'sanpham.SP_Ma')
+        ->where('giohang.ND_id', $userId)
+        ->select('chitietgiohang.*', 'sanpham.SP_HinhAnh', 'sanpham.SP_Ten', 'sanpham.SP_Gia')
+        ->get();
+    }
+
+
+    function deleteProduct($productId) {
+        DB::table('chitietgiohang')->where('SP_Ma', $productId)->delete();
+
+        $products = $this->getDataCart();
+        
+        return view('pages.guest.cart', compact('products')); 
     }
 }

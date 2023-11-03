@@ -32,6 +32,8 @@ Route::get('/home', [HomeController::class, 'index']);
 Route::get('/products', [ProductsController::class, 'index'])->name('products');
 Route::get('/product/detail/{id}', [ProductsController::class, 'product_detail'])->name('products.detail');
 
+Route::get('/product/delete/{id}', [CartContronller::class, 'deleteProduct'])->name('products.delete');
+
 Route::get("/search", [ProductsController::class, 'search'])->name("search-product");
 
 //contact

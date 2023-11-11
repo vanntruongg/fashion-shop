@@ -76,3 +76,31 @@ listBtnDecrease.forEach((btnDecrease, index) => {
       }
   })
 })
+
+
+const selectItems = document.querySelectorAll('.checkboxItem');
+const btnPayment = document.getElementById('payment');
+
+const getSelectedItems = () => {
+  let items = [];
+  selectItems.forEach(item => {
+    if(item.checked) {
+      items.push(item.dataset.productId);
+    }
+  })
+  return items;
+}
+
+btnPayment.addEventListener('click', () => {
+  const selectedItems = getSelectedItems();
+  // console.log(selectedItems);
+  if(selectedItems.length > 0) {
+    axios.post('/checkout',  {
+      productIds: selectedItems
+    })
+    .then(res => {
+      console.log(res);
+      window.location.href = '/get-checkout?products=' + encodeURIComponent(JSON.stringify(res.data));
+    });
+  }
+})

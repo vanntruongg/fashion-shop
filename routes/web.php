@@ -45,7 +45,8 @@ Route::post('/cart/add', [CartContronller::class, 'requestAddProduct'])->name('c
 
 Route::post('/update-quantity-cart', [CartContronller::class, 'updateQuantity']);
 //checkout
-Route::get('/checkout', [CheckOutContronller::class, 'index'])->name('checkout');
+Route::get('/get-checkout', [CheckOutContronller::class, 'getProducts'])->name('checkout');
+Route::post('/checkout', [CheckOutContronller::class, 'index'])->name('checkout');
 Route::post('/create-order', [CheckOutContronller::class, 'createOrder'])->name('create-order');
 
 //admin routes 

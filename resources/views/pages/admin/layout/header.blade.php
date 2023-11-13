@@ -32,7 +32,7 @@
                 </li>
                 <li class="hover:bg-slate-200 hover:rounded-sm px-2 text-center transform transition-all duration-300">
                   {{-- <form action="{{route('logout')}}" method="post"> --}}
-                  <form action="" method="post">
+                  <form action="{{route('logout')}}" method="post">
                       @csrf
                     <button type="submit">Đăng xuất</button>
                   </form>

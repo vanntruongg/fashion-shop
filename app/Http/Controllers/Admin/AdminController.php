@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class AdminController extends Controller
 {
@@ -14,8 +15,9 @@ class AdminController extends Controller
     public function product(Request $request ) {
         $page = $request->query('page',1);
         $data = DB::table('sanpham')
-        ->join('loaisanpham','sanpham.LSP_Ma','loaisanpham.LSP_Ma') 
-        ->select('sanpham.*','loaisanpham.LSP_Ten')
+        ->join('loaisanpham','sanpham.LSP_Ma','loaisanpham.LSP_Ma')
+        ->join('chitietsanpham','sanpham.SP_Ma','chitietsanpham.SP_Ma') 
+        ->select('sanpham.*','loaisanpham.LSP_Ten','chitietsanpham.CTSP_SoLuong')
         ->paginate(5);
 
         return view('pages.admin.product.product',compact('data','page'));
@@ -29,6 +31,15 @@ class AdminController extends Controller
         ->paginate(5);
         return view('pages.admin.product.categoryproduct',compact('data','page'));
     }
+    public function portfolio(Request $request) {
+        $page = $request->query('page',1);
+        $data = DB::table('danhmuc')
+        ->select('danhmuc.*')
+        ->paginate(5);
+
+        return view('pages.admin.product.portfolio',compact('data','page'));
+
+    }
 
     public function users(Request $request) {
         $page = $request->query('page', 1);
@@ -39,4 +50,14 @@ class AdminController extends Controller
         
         return view('pages.admin.users.users',compact('data','page'));
     }
+    public function orders(Request $request) {
+        $page = $request->query('page',1);
+        $data = DB::table('hoadon')
+        ->join('users','hoadon.ND_id','users.id')
+        ->select('hoadon.*','users.ND_Ho','users.ND_Ten')
+        ->paginate(5);
+        return view ('pages.admin.order.order',compact('data','page'));
+    }
+   
+    
 }

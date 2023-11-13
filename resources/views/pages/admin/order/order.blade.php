@@ -1,8 +1,8 @@
 @extends('pages.admin.layout.main')
 
 {{-- set title --}}
-@section('title', 'Danh Sách Loại Sản Phẩm')
-@section('path', 'Sản phẩm / Loại Sản Phẩm')
+@section('title', 'Đơn Hàng')
+@section('path', 'Đơn Hàng ')
 
 @section('slidebar')
   @include('pages.admin.layout.slidebar')
@@ -43,7 +43,7 @@
           <div class="flex flex-col w-full max-w-full px-3 ">
             <div class="flex flex-col min-w-[980px] mb-6 bg-white border-2 shadow-md rounded-lg ">
               <div class="flex p-2 py-2 items-center justify-between mb-1 mt-1">
-                <h3 class="text-[#344767] text-20 font-sora">Danh sách Loại Sản Phẩm</h3>
+                <h3 class="text-[#344767] text-20 font-sora">Danh sách Đơn Hàng</h3>
               </div>
               @if(session('success'))
                 <div id="message" class="backdrop-blur-2xl absolute top-2 left-[40%] rounded-lg border-l-8 border-l-blue-500 opacity-80">
@@ -58,39 +58,50 @@
                     <thead class="align-bottom bg-slate-200 rounded-2xl">
                       <tr class="text-black uppercase text-left text-12">
                         <th class="px-6 py-3 font-bold opacity">#</th>
-                        <th class="px-4 py-3 font-bold ">Tên Loại Sản Phẩm</th>
-                        <th class="px-4 py-3 font-bold">Tên Danh Mục</th>
+                        <th class="px-4 py-3 font-bold">Ngày Tạo </th>
+                        <th class="px-4 py-3 font-bold">Khách Hàng </th>
+                        <th class="px-4 py-3 font-bold">Tổng Tiền </th>
                         <th class="px-4 py-3 font-bold text-center"></th>
                         {{-- <th class="px-4 py-3 font-bold "></th> --}}
                       </tr>
                     </thead>
                     <tbody>
-                      @foreach($data as $key => $categoryproduct)
+                      @foreach($data as $key => $hoadon)
                         <tr class="border-t even:bg-gray-100 odd:bg-white">
                           <td class="p-4 bg-transparent ">
                             <div class="px-2 py-1">
                                 <h6 class="mb-0 text-sm leading-normal">{{ ++$key }}</h6>
                             </div>
                           </td>
+                          <td data-tooltip-target="tooltip-default" class="p-4 bg-transparent text-left">
+                            <div class=" py-1">
+                                <h6 class="mb-0 text-14 leading-normal -ml-3">
+                                    {{
+                                        date('Y-m-d', strtotime($hoadon->HD_Ngay)) == date('Y-m-d')
+                                        ? 'Hôm nay ' . date('H:i:s', strtotime($hoadon->HD_Ngay))
+                                        : $hoadon->HD_Ngay
+                                    }}
+                                  </h6>
+                            </div>
+                          </td>
                           <td class="p-4 bg-transparent text-left">
                             <div class=" py-1">
-                                <h6 class="mb-0 text-sm leading-normal">{{$categoryproduct->LSP_Ten}}</h6>
+                                <h6 class="mb-0 text-sm leading-normal">{{ $hoadon->ND_Ho .' '. $hoadon->ND_Ten}}</h6>
                             </div>
                           </td>
-                          <td class="p-4 bg-transparent">
-                            <div class="py-1">
-                              <h6 class="mb-0 text-sm leading-normal ml-1">{{$categoryproduct->DM_Ten}}</h6>
+                          <td class="p-4 bg-transparent text-left">
+                            <div class="">
+                                <h6 class="mb-0 ml-2 text-sm leading-normal">{{$hoadon->HD_TongTien}} đ</h6>
                             </div>
-                          </td>
-                          <td class="flex bg-transparent mt-4 justify-center items-center">
-                            {{-- <a href="fish/{{$fish->fish_id}}/edit" class="text-16 mr-2 text-blue-100"> --}}
-                            <a href="{{route('update-category',['id' => $categoryproduct->LSP_Ma])}}" class="text-16 mr-2 text-blue-500">
-                              <i class="fa-regular fa-pen-to-square mr-2"></i>
+                          </td> 
+                         
+                          <td class="flex bg-transparent mt-4 justify-center items-center -ml-10">
+                            {{-- {{route('update-portfolio',['id' => $portfolio->DM_STT])}} --}}
+                            <a href="{{route('order_details',['id'=>$hoadon->HD_Ma])}}" class="text-16 mr-4 text-blue-500">
+                                <button type="submit" class="text-12 text-primary-blue leading-normal border-2 border-blue-400 hover:border-red-400  px-4 py-2 rounded-xl hover:bg-red-500  hover:text-white transition-all duration-200">Xem Chi Tiết</button>
                             </a>
                             {{-- <button class="delete-fish text-16 mr-2 text-red-300 cursor-pointer" data-id="{{$fish->fish_id}}"> --}}
-                            <button class="delete-category text-16 mr-2 text-red-300 cursor-pointer" data-id="{{$categoryproduct->LSP_Ma}}">
-                              <i class="fa-regular fa-trash-can text-16"></i>
-                            </button>
+                                <button class="delete-order text-12 text-red-400 leading-normal border-2 border-red-400  px-4 py-2 rounded-xl hover:bg-red-400  hover:text-white transition-all duration-200 " data-id="{{$hoadon->HD_Ma}}">Xóa</button>
                           </td>
                         </tr>
                       @endforeach
@@ -149,7 +160,6 @@
 
   </div>
 @endsection
-
 @section('footer')
   @include('pages.admin.layout.footer')
 @endsection

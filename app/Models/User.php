@@ -26,6 +26,8 @@ class User extends Authenticatable
         'ND_Ten',
         'ND_VT',
         'ND_SDT',
+        'ND_Diachi',
+        'ND_avt'
     ];
 
     /**

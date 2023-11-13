@@ -5,14 +5,14 @@
   <form action="{{route('cart.add')}}" method="post">
     @csrf
     <div class="py-20 flex gap-8">
-      <input type="hidden" name="product_id" value={{ $product->id }}>
+      <input type="hidden" name="product_id" value={{ $product->SP_Ma }}>
       <div class="">
-        <img src="/storage/images/products/vest-1.jpg" alt="product-detail" class="">
+        <img src={{$product->SP_HinhAnh}} alt="product-detail" class="">
       </div>
       <div class="w-full">
         <div class="flex flex-col gap-2 mb-4 border-b">
-          <h3 class="text-28 font-serif font-bold">{{$product->name}}</h3>
-          <span class="pb-4 text-22 text-primary-600 font-medium">{{number_format($product->price, 0, ',', '.')}}đ </span>
+          <h3 class="text-28 font-serif font-bold">{{$product->SP_Ten}}</h3>
+          <span class="pb-4 text-22 text-primary-600 font-medium">{{number_format($product->SP_Gia, 0, ',', '.')}}đ </span>
         </div>
         <div class="flex flex-col gap-4">
           <div class="w-[120px] flex items-center justify-between border border-slate-300 rounded-sm">

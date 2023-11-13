@@ -43,19 +43,19 @@
       <div class="flex items-center justify-between my-2 pb-2 border-b border-slate-300">
         <h3 class="font-semibold uppercase">Sản phẩm</h3>
       </div>
-      @for ($i = 1; $i < 4; $i++)
+      @foreach ($products as $product)
         <div class="flex justify-between items-center py-2 my-2 border-b border-slate-300">
           <div class="flex items-center gap-4">
-            <img src="https://photo.salekit.com/uploads/salekit_55212856015d5853d669eede2fe3d8d6/vest-5.jpg" alt="" class="w-20">
+            <img src={{ $product->SP_HinhAnh }} alt="" class="w-20">
             <div class="flex flex-col items-start text-14 font-medium">
-              <span>Vest xanh đen kẻ sọc</span>
+              <span>{{$product->SP_Ten}}</span>
             </div>
           </div>
-          <div class="text-14 font-medium">1.490.000đ</div>
+          <div class="text-14 font-medium">{{number_format($product->SP_Gia * $product->CTGH_SoLuong, 0, ',', '.')}}</div>
         </div>
-      @endfor
+      @endforeach
       <div class="flex justify-end text-18 font-semibold ">
-        <p>Tổng cộng:<span class="text-primary-500"> 9.660.000đ</span></p>
+        <p>Tổng cộng: <span class="text-primary-500">{{number_format($totalPrice, 0, ',', '.')}}</span></p>
       </div>
     </div>
   </div>

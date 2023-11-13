@@ -28,6 +28,7 @@
         {{
           request()->is('admin/product')
              || request()->is('admin/categoryproduct')
+             || request()->is('admin/portfolio')
              ? 'bg-blue-400 text-white'
              : ''
        }}">
@@ -37,6 +38,7 @@
             {{
               request()->is('admin/product')
              || request()->is('admin/categoryproduct')
+             || request()->is('admin/portfolio')
              ? 'bg-blue-400 text-white'
              : ''
            }}">
@@ -50,6 +52,7 @@
         {{
           request()->is('admin/product')
           || request()->is('admin/categoryproduct')
+          || request()->is('admin/portfolio')
           ? ' max-h-screen' :
           'max-h-0'
         }}
@@ -78,6 +81,19 @@
             <i class="fa-solid fa-circle-dot text-10 text-primary-blue mr-1"></i>
             Danh sách loại sản phẩm
           </a>
+          <a
+            href="{{route('admin-portfolio')}}"
+            class="transition-all hover:bg-slate-100 py-1 rounded-sm
+            {{      
+              request()->is('admin/portfolio')
+              
+              ? ' text-blue-400'
+              : ''
+            }}">          
+            <i class="fa-solid fa-circle-dot text-10 text-primary-blue mr-1"></i>
+            Danh sách danh mục
+          </a>
+          
           <div class="btn__slidebar2 cursor-pointer 
           {{
             request()->is('admin/product/new-product')
@@ -198,7 +214,7 @@
       </li>
       <li class="w-full inline-block text-gray-500">
         <div class="cursor-pointer mb-4 border mx-2 rounded-xl">
-          <a href="#" class="hover:opacity-60 ml-2 py-2 rounded-sm block">
+          <a href="{{route('admin-orders')}}" class="hover:opacity-60 ml-2 py-2 rounded-sm block">
             <button class=" w-5 h-5 rounded-full">
               <i class="fa-solid fa-circle-dot text-16 mr-1"></i>
             </button>
@@ -209,7 +225,7 @@
 
       <li class="w-full inline-block text-gray-500">
         <div class="cursor-pointer mb-4 border mx-2 rounded-xl">
-          <a href="#" class="hover:opacity-60 ml-2 py-2 rounded-sm block">
+          <a href="{{route('admin-importwarehouse')}}" class="hover:opacity-60 ml-2 py-2 rounded-sm block">
             <button class=" w-5 h-5 rounded-full">
               <i class="fa-solid fa-circle-dot text-16 mr-1"></i>
             </button>

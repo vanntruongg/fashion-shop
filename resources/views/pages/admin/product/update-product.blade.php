@@ -1,8 +1,8 @@
 @extends('pages.admin.layout.main')
 
 {{-- set title --}}
-@section('title', 'Tạo Mới Sản Phẩm')
-@section('path', 'Thêm mới / Sản Phẩm')
+@section('title', 'Chỉnh sửa sản phẩm')
+@section('path', 'Chỉnh sửa/ Sản Phẩm')
 
 @section('slidebar')
   @include('pages.admin.layout.slidebar')
@@ -24,7 +24,7 @@
     </div>
     @endif
 
-    <div class="py-4 pt-2 ml-2 text-24 font-sora text-[#5432a8]">Thêm Sản Phẩm Mới</div>
+    <div class="py-4 pt-2 ml-2 text-24 font-sora text-[#5432a8]">Chỉnh sửa sản phẩm</div>
     <div class="">
       <div class="col-span-3 border p-4">
         <form action="" method="post" enctype="multipart/form-data">
@@ -33,7 +33,7 @@
             <div class="w-80 h-32 mr-10">
               <img
                 id="img-preview"
-                src="{{ URL::to('/storage/images/admin/shirt_default.png')}}"
+                src="{{ $product->SP_HinhAnh ? $product->SP_HinhAnh : URL::to('/storage/images/admin/shirt_default.png')}}"
                 alt="image-product"
                 class="w-36 h-36 ml-10"
               >
@@ -63,7 +63,8 @@
                   class="py-1.5 px-2 w-full outline-none rounded-lg placeholder:text-14 text-14 cursor-pointer"
                 >
                     @foreach($loaisanpham as $loaisp)
-                      <option value="{{ $loaisp->LSP_Ma }}}">{{ $loaisp->LSP_Ten }}</option>
+                      {{-- <option value="{{ $loaisp->LSP_Ma }}}">{{ $loaisp->LSP_Ten }}</option> --}}
+                      <option {{ $loaisp->LSP_Ma === $product->LSP_Ma ? 'selected' : '' }} value="{{ $loaisp->LSP_Ma}}">{{ $loaisp->LSP_Ten }}</option>
                     @endforeach
                   {{-- <option value=""></option> --}}
                 </select>
@@ -80,7 +81,7 @@
                 <input
                   type="text"
                   name="SP_Ten"
-                  placeholder="Nhập tên"
+                  value="{{$product->SP_Ten}}"
                   class="py-1.5 px-2 w-full outline-none rounded-lg placeholder:text-14 text-14"
                 >
               </div>
@@ -96,7 +97,7 @@
                 <input
                   type="text"
                   name="SP_Chatlieu"
-                  placeholder="Nhập"
+                  value="{{$product->SP_ChatLieu}}"
                   class="py-1.5 px-2 w-full outline-none rounded-lg placeholder:text-14 text-14"
                 >
               </div>
@@ -119,7 +120,7 @@
                   class="py-1.5 px-2 w-full outline-none rounded-lg placeholder:text-14 text-14 cursor-pointer"
                 >
                   @foreach($mausac as $value)
-                    <option value="{{ $value->MS_Ma }}">{{ $value->MS_TenMau }}</option>
+                    <option {{$product_details->MS_Ma === $value->MS_Ma ? 'selected' : ''}} value="{{ $value->MS_Ma }}">{{ $value->MS_TenMau }}</option>
                   @endforeach
                 </select>
               </div>
@@ -138,7 +139,7 @@
                   class="py-1.5 px-2 w-full outline-none rounded-lg placeholder:text-14 text-14 cursor-pointer"
                 >
                   @foreach($kichthuoc as $value)
-                    <option value="{{ $value->KT_Ma}}">{{ $value->KT_Ten }}</option>
+                    <option {{$product_details->KT_Ma === $value->KT_Ma ? 'selected' : ''}} value="{{ $value->KT_Ma}}">{{ $value->KT_Ten }}</option>
                   @endforeach
                 </select>
               </div>
@@ -154,7 +155,7 @@
                   <input
                     type="text"
                     name="SP_Gia"
-                    placeholder="Nhập giá"
+                    value="{{$product->SP_Gia}}"
                     class="py-1.5 px-2 w-full outline-none rounded-lg placeholder:text-14 text-14"
                   >
                 </div>
@@ -175,7 +176,7 @@
                 <input
                   type="text"
                   name="SP_Soluong"
-                  placeholder="Nhập"
+                  value="{{$product_details->CTSP_SoLuong}}"
                   class="pb-11 pt-1 w-full outline-none focus-within:border-blue-500 px-2 placeholder:text-14 text-14"
                 >
               </div>
@@ -188,7 +189,7 @@
             type="submit"
             class="border-2 border-blue-500 p-2 px-6 mt-4 flex hover:bg-slate-100"
           >
-            Thêm
+            Cập Nhật
           </button>
 
         </form>

@@ -1,8 +1,8 @@
 @extends('pages.admin.layout.main')
 
 {{-- set title --}}
-@section('title', 'Thêm người dùng mới')
-@section('path', 'Người dùng / Thêm người dùng mới')
+@section('title', 'Chỉnh sửa người dùng')
+@section('path', 'Chỉnh sửa / Người dùng')
 
 @section('slidebar')
   @include('pages.admin.layout.slidebar')
@@ -23,15 +23,7 @@
     </div>
     @endif
 
-    
-    <div class="py-4 pt-2 ml-2 text-24 font-sora text-[#5432a8]">Tạo mới người dùng</div>
-    @if(session('add-failed'))
-        <div id="message" class="bg-slate-200 absolute top-12 right-7 rounded-lg border-l-8 border-l-blue-500 opacity-80">
-          <div class="py-4 text-blue-400 relative before:absolute before:bottom-0 before:content-[''] before:bg-blue-500 before:h-0.5 before:w-full before:animate-before">
-            <span class="px-4">{{ session('add-failed') }}</span>
-          </div>
-        </div>
-      @endif
+    <div class="py-4 pt-2 ml-2 text-24 font-sora text-[#5432a8]">Chỉnh sửa người dùng</div>
     @if ($errors->any())
     <div class="alert alert-danger text-red-500 mb-1">
         <ul>
@@ -50,10 +42,10 @@
               
               <img
                 id="img-preview"
-                src="{{ URL::to('/storage/images/admin/user_default.png')}}"
+                src="{{ $user->ND_avt ? asset($user->ND_avt) : asset('images/admin/user_default.png') }}"
                 alt="avatar"
                 class="w-full h-full rounded-full ml-3"
-                
+            
               >
                 
             </div>
@@ -66,8 +58,9 @@
             <input
               id="input-file-img"
               type="file"
-              name="ND_avt"
+              name="avatar"
               hidden
+              value=""
               class="py-8 text-14 border border-slate-500 file:ml-2 rounded-lg border-dashed text-slate-500 cursor-pointer file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-none file:bg-[#5490f0] file:text-white file:cursor-pointer file:hover:bg-blue-100"
             >
           </div>
@@ -111,7 +104,7 @@
               <input
                 type="text"
                 name="ND_Ho"
-                placeholder="Vd: Nguyễn Văn"
+                value="{{$user->ND_Ho}}"
                 class="py-1.5 w-full outline-none rounded-lg placeholder:text-14 text-14"
               >
             </div>
@@ -129,7 +122,7 @@
               <input
                 type="text"
                 name="ND_Ten"
-                placeholder="Vd: A"
+                value="{{$user->ND_Ten}}"
                 class="py-1.5 w-full outline-none rounded-lg placeholder:text-14 text-14"
               >
             </div>
@@ -147,7 +140,7 @@
               <input
                 type="number"
                 name="ND_SDT"
-                placeholder="(012) 345-6789"
+                value="{{$user->ND_SDT}}"
                 class="py-1.5 w-full outline-none rounded-lg placeholder:text-14 text-14"
               >
             </div>
@@ -165,7 +158,7 @@
               <input
                 type="email"
                 name="email"
-                placeholder="Email address"
+                value="{{$user->email}}"
                 class="py-1.5 w-full outline-none rounded-lg placeholder:text-14 text-14"
               >
             </div>
@@ -183,7 +176,7 @@
             <input
               type="text"
               name="ND_Diachi"
-              placeholder="Address"
+              value="{{$user->ND_Diachi}}"
               class="pb-11 pt-1 w-full outline-none focus-within:border-blue-500 px-2 placeholder:text-14 text-14"
             >
           </div>
@@ -210,7 +203,7 @@
           type="submit"
           class="border-2 border-blue-500 p-2 px-6 mt-4 flex hover:bg-slate-100"
         >
-          Thêm
+          Chỉnh sửa
         </button>
 
       </form>

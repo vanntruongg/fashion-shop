@@ -26,15 +26,15 @@
         </form>
       </div>
 
-      {{-- @if(session('add-success') || session('update-success') || session('delete-success'))
+      @if(session('add-success') || session('update-success') || session('delete-success'))
         <div id="message" class="flex absolute top-12 right-7">
           <div  class="bg-slate-200 rounded-lg border-l-8 border-l-blue-500 opacity-80">
-            <div class="py-4 text-blue-100 relative before:absolute before:bottom-0 before:content-[''] before:bg-blue-500 before:h-0.5 before:w-full before:animate-before">
+            <div class="py-4 text-blue-400 relative before:absolute before:bottom-0 before:content-[''] before:bg-blue-500 before:h-0.5 before:w-full before:animate-before">
               <span class="px-4">{{ session('add-success') ? session('add-success') : (session('update-success') ? session('update-success') : session('delete-success')) }}</span>
             </div>
           </div>
         </div>
-      @endif --}}
+      @endif
 
 
       {{-- Table --}}
@@ -45,13 +45,13 @@
               <div class="flex p-2 py-2 items-center justify-between mb-1 mt-1">
                 <h3 class="text-[#344767] text-20 font-sora">Danh sách Sản Phẩm</h3>
               </div>
-              {{-- @if(session('success'))
+              @if(session('success'))
                 <div id="message" class="backdrop-blur-2xl absolute top-2 left-[40%] rounded-lg border-l-8 border-l-blue-500 opacity-80">
                   <div class="py-4 text-blue-100 relative before:absolute before:bottom-0 before:content-[''] before:bg-blue-500 before:h-0.5 before:w-full before:animate-before">
                     <span class="px-4">{{ session('success') }}</span>
                   </div>
                 </div>
-              @endif --}}
+              @endif
               <div class="flex-auto px-0 pt-0">
                 <div class="p-0 overflow-x-auto place-self-auto">
                   <table class="items-center w-full mb-0 align-top border-collapse text-slate-500">
@@ -62,7 +62,7 @@
                         <th class="px-4 py-3 font-bold">Tên Loại Sản Phẩm</th>
                         <th class="px-4 py-3 font-bold">Giá Bán</th>
                         <th class="px-4 py-3 font-bold">Số lượng</th>
-                        <th class="px-4 py-3 font-bold text-center"></th>
+                        <th class="px-4 py-3 font-bold"></th>
                         {{-- <th class="px-4 py-3 font-bold "></th> --}}
                       </tr>
                     </thead>
@@ -91,19 +91,20 @@
                           </td>
                           <td class="p-4 bg-transparent">
                             <div class="py-1">
-                              <h6 class="mb-0 text-sm leading-normal ml-6">20</h6>
+                              <h6 class="mb-0 text-sm leading-normal ml-6">{{$product->CTSP_SoLuong}}</h6>
                             </div>
                           </td>
-                          <td class="flex bg-transparent mt-4 justify-center items-center">
+                        <td class="flex bg-transparent mt-4 justify-center items-center">
+                          
                             {{-- <a href="fish/{{$fish->fish_id}}/edit" class="text-16 mr-2 text-blue-100"> --}}
-                            <a href="" class="text-16 mr-2 text-blue-500">
+                            <a href="{{route('update-product',['id' => $product->SP_Ma])}}" class="text-16 mr-2 text-blue-500">
                               <i class="fa-regular fa-pen-to-square mr-2"></i>
                             </a>
                             {{-- <button class="delete-fish text-16 mr-2 text-red-300 cursor-pointer" data-id="{{$fish->fish_id}}"> --}}
-                            <button class="delete-fish text-16 mr-2 text-red-300 cursor-pointer" data-id="">
+                            <button class="delete-product text-16 mr-2 text-red-300 cursor-pointer" data-id="{{$product->SP_Ma}}">
                               <i class="fa-regular fa-trash-can text-16"></i>
                             </button>
-                          </td>
+                        </td>
                         </tr>
                       @endforeach
                     </tbody>
@@ -148,8 +149,6 @@
                       </ol>
                     </div>
                   </div> 
-
-
                 </div>
               </div>
             </div>
@@ -165,3 +164,5 @@
 @section('footer')
   @include('pages.admin.layout.footer')
 @endsection
+
+                          

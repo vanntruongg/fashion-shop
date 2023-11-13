@@ -1,8 +1,8 @@
 // import { Chart } from "chart.js/auto";
-// import constants from "../constants";
+import constants from "../constants";
 
 const $ = document.querySelector.bind(document);
-// const $$ = document.querySelectorAll.bind(document);
+const $$ = document.querySelectorAll.bind(document);
 
 // chart element
 const lastWeekChart = document.getElementById('lastWeekChart');

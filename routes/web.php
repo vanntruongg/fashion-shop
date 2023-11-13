@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\admin\OrderController;
+use App\Http\Controllers\admin\product\ImportwarehouseController;
 use App\Http\Controllers\CartContronller;
 use App\Http\Controllers\CheckOutContronller;
 use App\Http\Controllers\ContactController;
@@ -47,14 +49,6 @@ Route::get('/checkout', [CheckOutContronller::class, 'index'])->name('checkout')
 Route::post('/create-order', [CheckOutContronller::class, 'createOrder'])->name('create-order');
 
 //admin routes 
-Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin-dashboard');
-Route::get('/admin/product', [AdminController::class, 'product'])->name('admin-product');
-Route::get('/admin/categoryproduct', [AdminController::class, 'category'])->name('admin-category');
-Route::get('/admin/users', [AdminController::class, 'users'])->name('admin-users');
-Route::get('/admin/product/new-product', [ProductController::class, 'newProduct'])->name('new-product');
-Route::get('/admin/product/new-category', [CategoryController::class, 'newCategory'])->name('new-category');
-Route::get('/admin/product/new-portfolio', [PortfolioConTroller::class, 'newPortfolio'])->name('new-portfolio');
-Route::get('/admin/users/new-users', [UserController::class, 'newUser'])->name('new-users');
 
 //Auth
 //Login
@@ -62,7 +56,7 @@ Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
 //logout
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 //Register
 Route::get('/register', [AuthController::class, 'registerview'])->name('register');
@@ -98,7 +92,59 @@ Route::get('/403', function () {
 //Admin
 
 Route::prefix('/admin')->middleware('auth.admin')->group(function () {
-    Route::get('/', [AdminController::class, 'index'])->name('admin-dashboard');
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin-dashboard');
+    Route::get('/product', [AdminController::class, 'product'])->name('admin-product');
+    Route::get('/categoryproduct', [AdminController::class, 'category'])->name('admin-category');
+    Route::get('/portfolio', [AdminController::class, 'portfolio'])->name('admin-portfolio');
+    Route::get('/users', [AdminController::class, 'users'])->name('admin-users');
+    Route::get('/orders', [AdminController::class, 'orders'])->name('admin-orders');
+    //product
+    Route::get('/product/new-product', [ProductController::class, 'newProduct'])->name('new-product');
+    Route::post('/product/new-product', [ProductController::class, 'createProduct']);
+        //update product
+    Route::get('product/{id}/update-product', [ProductController::class, 'getUpdateProduct'])->name('update-product');
+    Route::post('product/{id}/update-product', [ProductController::class, 'postUpdateProduct']);
+        //delele product
+    Route::post('delele-product', [ProductController::class, 'delete'])->name('delete-product');
+    //category
+        //create
+    Route::get('/product/new-category', [CategoryController::class, 'newCategory'])->name('new-category');
+    Route::post('/product/new-category', [CategoryController::class, 'createCategory']);
+        //update
+    Route::get('category/{id}/update-category', [CategoryController::class, 'getUpdateCategory'])->name('update-category');
+    Route::post('category/{id}/update-category', [CategoryController::class, 'updateCategory']);
+        //delete
+    Route::post('delele-category', [CategoryController::class, 'delete'])->name('delete-category');
+    //portfolio
+        //create
+    Route::get('/product/new-portfolio', [PortfolioConTroller::class, 'newPortfolio'])->name('new-portfolio');
+    Route::post('/product/new-portfolio', [PortfolioConTroller::class, 'createPortfolio']);
+        //update
+    Route::get('portfolio/{id}/update-portfolio', [PortfolioConTroller::class, 'getUpdatePortfolio'])->name('update-portfolio');
+    Route::post('portfolio/{id}/update-portfolio', [PortfolioConTroller::class, 'updatePortfolio']);
+        //delele
+    Route::post('delele-portfolio', [PortfolioConTroller::class, 'delete'])->name('delete-portfolio');
+    //user
+        //create
+    Route::get('/users/new-users', [UserController::class, 'newUser'])->name('new-users');
+    Route::post('/users/new-users', [UserController::class, 'createUsers']);
+        //update
+    Route::get('/users/{id}/update-users', [UserController::class, 'getupdateUsers'])->name('update-users');
+    Route::post('/users/{id}/update-users', [UserController::class, 'updateUsers']);
+        //delete
+    Route::post('delele-user', [UserController::class, 'delete'])->name('delete-user');
 
+    //orders
+    Route::get('/orders/{id}/order_details', [OrderController::class, 'getOrderdetails'])->name('order_details');
+        //delete
+    Route::post('delele-order', [OrderController::class, 'delete'])->name('delete-order');
+
+    //hoadonnhap
+    Route::get('/importwarehouse', [ImportwarehouseController::class, 'importWarehouse'])->name('admin-importwarehouse');
+        //details 
+    Route::get('/importwarehouse/{id}/details', [ImportwarehouseController::class, 'getImportwarehouseDetails'])->name('importwarehouse-details');
+        //create
+    Route::get('/importwarehouse/new-importwarehouse',[ImportwarehouseController::class, 'newImportwarehouse'])->name('new-importwarehouse');
+    Route::post('/importwarehouse/new-importwarehouse',[ImportwarehouseController::class, 'createImportwareHouse']);
 });
 

@@ -1,7 +1,7 @@
 @extends('pages.admin.layout.main')
 
 {{-- set title --}}
-@section('title', 'Create new Category')
+@section('title', 'Tạo mới loại sản phẩm')
 @section('path', 'Thêm mới / Loại Sản Phẩm')
 
 @section('slidebar')
@@ -14,6 +14,15 @@
       @include('pages.admin.layout.header')
     @endsection
 
+    @if(session('add-success') || session('update-success') || session('delete-success'))
+    <div id="message" class="flex absolute top-12 right-7">
+      <div  class="bg-slate-200 rounded-lg border-l-8 border-l-blue-500 opacity-80">
+        <div class="py-4 text-blue-400 relative before:absolute before:bottom-0 before:content-[''] before:bg-blue-500 before:h-0.5 before:w-full before:animate-before">
+          <span class="px-4">{{ session('add-success') ? session('add-success') : (session('update-success') ? session('update-success') : session('delete-success')) }}</span>
+        </div>
+      </div>
+    </div>
+    @endif
     <div>
       <div class="py-4 pt-2 ml-2 text-24 font-sora text-[#5432a8]">Thêm mới Loại Sản Phẩm</div>
       @if(session('create-success'))
@@ -33,21 +42,38 @@
 
           <div class="mt-4 ">
             <label
-              for="species"
+              for="LSP_Ten"
               class="text-slate-500 text-14"
             >
-              Loại
+              Tên loại sản phẩm
             </label><br>
             <div class="border-[1.5px] mt-1">
               <input
                 type="text"
-                name="species"
+                name="LSP_Ten"
                 placeholder="Tên"
                 class="pb-6 pt-1 w-32 outline-none focus-within:border-blue-500 px-2 placeholder:text-14 text-14"
               >
             </div>
           </div>
-
+          <div class="mt-4">
+            <label
+              for="DM_STT"
+              class="text-slate-500 text-14 "
+            >
+            Danh mục 
+            </label><br>
+            <div class="flex items-center border-[1.5px] mt-1 rounded-lg focus-within:border-blue-200">
+              <select
+                name="DM_STT"
+                class="py-2 px-2 w-full outline-none rounded-lg placeholder:text-14 text-14 cursor-pointer"
+              >
+                  @foreach($danhmucsanpham as $danhmuc)
+                    <option value="{{ $danhmuc->DM_STT}}">{{ $danhmuc->DM_Ten}}</option>
+                  @endforeach
+                {{-- <option value=""></option> --}}
+              </select>
+            </div>
           <button
             type="submit"
             class="border-2 border-blue-500 p-2 px-6 mt-4 flex hover:bg-slate-100"
@@ -58,7 +84,7 @@
         </form>
       </div>
 
-      <div class="border w-full ml-4 ">
+      <div class="border w-full mt-10">
         <h2 class="text-24 text-center font-sora text-primary-purple">Danh sách các Loại Sản Phẩm</h2>
         <div class="mx-2 leading-8">
           @foreach ($loaisanpham as $key => $value)

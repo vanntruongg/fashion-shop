@@ -20,7 +20,7 @@ class CartContronller extends Controller
         ->where('giohang.ND_id', $userId)
         ->select('chitietgiohang.*', 'sanpham.SP_Ten', 'sanpham.SP_Gia')
         ->get();
-        dd($carts);
+        // dd($carts);
 
         $carts = DB::table('giohang')->get();
         return view('pages.guest.cart',compact('carts'));

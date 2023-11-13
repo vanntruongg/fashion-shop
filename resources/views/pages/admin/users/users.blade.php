@@ -27,10 +27,10 @@
       </form>
     </div>
 
-    {{-- @if(session('create-success') || session('update-success'))
+    @if(session('create-success') || session('update-success'))
         <div id="message" class="flex absolute top-12 right-7">
           <div  class="bg-slate-200 rounded-lg border-l-8 border-l-blue-500 opacity-80">
-            <div class="py-4 text-blue-100 relative before:absolute before:bottom-0 before:content-[''] before:bg-blue-500 before:h-0.5 before:w-full before:animate-before">
+            <div class="py-4 text-blue-400 relative before:absolute before:bottom-0 before:content-[''] before:bg-blue-500 before:h-0.5 before:w-full before:animate-before">
               <span class="px-4">{{ session('update-success') ? session('update-success') : session('create-success') }}</span>
             </div>
           </div>
@@ -44,13 +44,13 @@
       @elseif(session('delete-success'))
         <div id="message" class="flex absolute top-12 right-7">
           <div  class="bg-slate-200 rounded-lg border-l-8 border-l-blue-500 opacity-80">
-            <div class="py-4 text-blue-100 relative before:absolute before:bottom-0 before:content-[''] before:bg-blue-500 before:h-0.5 before:w-full before:animate-before">
+            <div class="py-4 text-blue-400 relative before:absolute before:bottom-0 before:content-[''] before:bg-blue-500 before:h-0.5 before:w-full before:animate-before">
               <span class="px-4">{{ session('update-success') ? session('update-success') : session('delete-success') }}</span>
             </div>
           </div>
           <button id="btn-rollback" class="border px-4 ml-2 rounded-lg hover:bg-slate-200 hover:text-primary-blue transition-all">Hoàn tác</button>
         </div>
-    @endif --}}
+    @endif
     {{-- Danh sách người dùng --}}
     <div class="flex flex-wrap -mx-3 mb-10 mt-2">
       <div class="flex flex-col w-full max-w-full px-3">
@@ -110,24 +110,19 @@
                             <h6 class="mb-0 pl-16 text-sm leading-normal ml-2">{{$users ->ND_SDT}}</h6>
                         </div>
                       </td>
-                      {{-- <td class="p-4 bg-transparent">
-                        <div class="py-1">
-                          <h6 class="mb-0 text-sm leading-normal text-center {{ $user->status_id === 0 ? 'text-blue-100' : 'text-red-200' }} capitalize">{{ $user->status_name }}</h6>
-                        </div>
-                      </td> --}}
                       <td class="p-4 bg-transparent text-center">
-                        <div class="px-2 py-1 rounded-full ">
-                            {{-- {{ $users->id === Auth::user()->id  ? 'bg-fuchsia-400 text-white' : ($users->VT_Ma == 1 ? 'bg-cyan-400 text-white' :  '')}} --}}
+                        <div class="px-2 py-1 rounded-full {{ $users->id === Auth::user()->id  ? 'bg-fuchsia-400 text-white' : ($users->ND_VT == 1 ? 'bg-cyan-400 text-white' :  '')}}">
                             <h6 class="text-sm leading-normal capitalize"> {{ $users->VT_Ten}}</h6>
                         </div>
                       </td>
+                      
                       <td class="flex bg-transparent mt-4 justify-center items-center">
                         {{-- <a href="fish/{{$fish->fish_id}}/edit" class="text-16 mr-2 text-blue-100"> --}}
-                        <a href="" class="text-16 mr-2 text-blue-100">
+                        <a href="users/{{$users->id}}/update-users" class="text-16 mr-2 text-blue-400">
                           <i class="fa-regular fa-pen-to-square mr-2"></i>
                         </a>
                         {{-- <button class="delete-fish text-16 mr-2 text-red-300 cursor-pointer" data-id="{{$fish->fish_id}}"> --}}
-                        <button class="delete-fish text-16 mr-2 text-red-300 cursor-pointer" data-id="">
+                        <button class="delete-user text-16 mr-2 text-red-300 cursor-pointer" data-id="{{$users->id}}">
                           <i class="fa-regular fa-trash-can text-16"></i>
                         </button>
                       </td>

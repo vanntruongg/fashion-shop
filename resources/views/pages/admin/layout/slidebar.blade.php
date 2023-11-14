@@ -9,7 +9,8 @@
     </div>
     <ul class="mt-[50px] ml-1 text-14">
       <li class="w-full inline-block text-gray-500">
-        <div class="cursor-pointer mb-4 border mx-2 rounded-xl {{
+        <div class="cursor-pointer mb-4 border mx-2 rounded-xl 
+        {{
           request()->is('admin/dashboard')
              ? 'bg-pink-700 text-white'
              : ''
@@ -213,7 +214,12 @@
         </div>
       </li>
       <li class="w-full inline-block text-gray-500">
-        <div class="cursor-pointer mb-4 border mx-2 rounded-xl">
+        <div class="cursor-pointer mb-4 border mx-2 rounded-xl 
+        {{
+          request()->is('admin/orders')
+             ? 'bg-green-400 text-white'
+             : ''
+       }}">
           <a href="{{route('admin-orders')}}" class="hover:opacity-60 ml-2 py-2 rounded-sm block">
             <button class=" w-5 h-5 rounded-full">
               <i class="fa-solid fa-circle-dot text-16 mr-1"></i>
@@ -224,7 +230,12 @@
       </li>
 
       <li class="w-full inline-block text-gray-500">
-        <div class="cursor-pointer mb-4 border mx-2 rounded-xl">
+        <div class="cursor-pointer mb-4 border mx-2 rounded-xl
+        {{
+          request()->is('admin/importwarehouse')
+             ? 'bg-yellow-700 text-white'
+             : ''
+       }}">
           <a href="{{route('admin-importwarehouse')}}" class="hover:opacity-60 ml-2 py-2 rounded-sm block">
             <button class=" w-5 h-5 rounded-full">
               <i class="fa-solid fa-circle-dot text-16 mr-1"></i>

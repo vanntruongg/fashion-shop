@@ -141,4 +141,15 @@ class UserController extends Controller
         Session::flash('delete-success', 'Xóa người dùng thành công');
         return redirect()->route('admin-users');
     }
+
+    public function searchUser(Request $request) {
+        $ND_Ten = $request->input('ND_Ten');
+        $data = DB::table('users')
+        ->join('vaitro', 'users.ND_VT', '=', 'vaitro.VT_Ma')
+        ->where('users.ND_Ten', 'LIKE', '%'.  $ND_Ten .'%')
+        ->select('users.*','vaitro.VT_Ten')
+        ->get();
+
+        return view('pages.admin.users.search-users',compact('ND_Ten','data'));
+    }
 }

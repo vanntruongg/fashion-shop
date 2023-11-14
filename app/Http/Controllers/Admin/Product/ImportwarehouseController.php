@@ -107,7 +107,7 @@ class ImportwarehouseController extends Controller
                 // Lấy giá trị 'SP_Ma' từ sản phẩm đã tồn tại
                 $SP_Ma = $sanpham->SP_Ma;
             } else {
-                $productImg = $request->file('product-img')[$index];
+                $productImg = $request->file('product-img')[$index] ?? null;
                 if ($productImg) {
                   $linkImgPath = $productImg->store('public/images/products');
                   $productImgURL = Storage::url($linkImgPath);
@@ -138,12 +138,126 @@ class ImportwarehouseController extends Controller
                 'CTHDN_SoLuong' => $request->input('SP_Soluong')[$index],
                 'CTHDN_Gia' => $request->input('SP_Gia')[$index],
                 'SP_Ma' => $SP_Ma,
-                'HDN_Ma' => $hoadonnhap->id,
+                'HDN_Ma' => $hoadonnhap->HDN_Ma,
             ]);
 
             
         }
-        Session::flash('add-success','Thêm bóa đơn nhập thành công');
+        Session::flash('add-success','Thêm hóa đơn nhập thành công');
         return redirect()->route('new-importwarehouse');
     }
+
+    public function getUpdateimportwarehouse($id) {
+        $hoadonnhap = DB::table('hoadonnhap')
+        ->where('hoadonnhap.HDN_Ma', '=', $id)
+        ->first();
+        $chitiethoadonnhap = DB::table('chitiethoadonnhap')
+        ->join('sanpham','chitiethoadonnhap.SP_Ma','=','sanpham.SP_Ma')
+        ->join('chitietsanpham','sanpham.SP_Ma','=','chitietsanpham.SP_Ma')
+        ->where('HDN_Ma','=', $id)
+        ->get();
+        $loaisanpham = DB::table('loaisanpham')
+        ->select('loaisanpham.*')
+        ->get();
+        $mausac = DB::table('mausac')->select('mausac.*')
+        ->get();
+        $kichthuoc = DB::table('kichthuoc')->select('kichthuoc.*')
+        ->get();
+        return view('pages.admin.importwarehouse.update-importwarehouse',compact('id','hoadonnhap','chitiethoadonnhap','loaisanpham','mausac','kichthuoc'));
+    }
+
+    public function updateImportwarehouse($id, ImportWarehouseRequest $request) {
+       
+        $hoadonnhap = hoadonnhap::find($id);
+       
+    
+        $hoadonnhap->update([
+            'HDN_Ngay' => $request->input('HDN_Ngay'),
+            'HDN_GhiChu' => $request->input('HDN_GhiChu'),
+            // Cập nhật các trường khác của hóa đơn nhập nếu có
+        ]);
+    
+       
+        foreach ($request->input('SP_Ten') as $index => $tenSanPham) {
+            // Kiểm tra sản phẩm đã tồn tại hay chưa
+            $sanpham = sanpham::where('SP_Ten', $tenSanPham)->first();
+    
+            if ($sanpham) {
+                // Nếu sản phẩm đã tồn tại, tăng số lượng
+                DB::table('chitietsanpham')
+                    ->where('SP_Ma', $sanpham->SP_Ma)
+                    ->update([
+                        'CTSP_SoLuong' => DB::raw('CTSP_SoLuong + ' . $request->input('SP_Soluong')[$index]),
+                        // Cập nhật các trường khác của chi tiết sản phẩm nếu có
+                    ]);
+    
+                // Lấy giá trị 'SP_Ma' từ sản phẩm đã tồn tại
+                $SP_Ma = $sanpham->SP_Ma;
+            } else {
+                $productImg = $request->file('product-img')[$index] ?? null;
+                if ($productImg) {
+                  $linkImgPath = $productImg->store('public/images/products');
+                  $productImgURL = Storage::url($linkImgPath);
+                } else {
+                  $productImgURL = '/storage/images/admin/shirt_default.png';
+                }
+                $sanpham = SanPham::create([
+
+                    'SP_Ten' => $tenSanPham,
+                    'SP_ChatLieu' => $request->input('SP_Chatlieu')[$index],
+                    'SP_Gia' => $request->input('SP_Gia')[$index],
+                    'LSP_Ma' => $request->input('SP_LSP')[$index],
+                    'SP_HinhAnh' => $productImgURL,
+                ]);
+        
+                // Lấy giá trị 'SP_Ma' từ sản phẩm mới tạo
+                $SP_Ma = $sanpham->id;
+                chitietsanpham::create([
+                    'CTSP_SoLuong'=> $request->input('SP_Soluong')[$index],
+                    'MS_Ma' => $request->input('SP_Mausac')[$index],
+                    'KT_Ma' => $request->input('SP_Kichthuoc')[$index],
+                    'SP_Ma' => $SP_Ma,
+                ]);
+            }
+         
+            chitiethoadonnhap::where('HDN_Ma', $id)
+                ->where('SP_Ma', $SP_Ma)
+                ->update([
+                    'CTHDN_SoLuong' => $request->input('SP_Soluong')[$index],
+                    'CTHDN_Gia' => $request->input('SP_Gia')[$index],
+                    // Cập nhật các trường khác của chi tiết hóa đơn nhập nếu có
+                ]);
+        }
+    
+        Session::flash('update-success', 'Cập nhật hóa đơn nhập thành công');    
+        return redirect()->route('update-importwarehouse',compact('id'));
+    }
+
+    public function deleteImportwarehouse(Request $request) {
+       
+        // $hoadonnhap = hoadonnhap::find($id);
+        // DB::table('chitiethoadonnhap')->where('HDN_Ma', $id)->delete();
+        // foreach ($hoadonnhap->chitiethoadonnhap as $chitiet) {
+        //     $chitiet->sanpham->chitietsanpham->delete();
+        //     $chitiet->sanpham->delete();
+        // }
+        // $hoadonnhap->delete();
+              
+        $import_id = $request->input('importwarehouse_id');
+
+        // Kiểm tra xem có chi tiết hóa đơn nhập nào liên quan không
+        $hasDetails = chitiethoadonnhap::where('HDN_Ma', $import_id)->exists();
+
+        // Nếu có chi tiết hóa đơn nhập, hãy xóa chúng trước
+        if ($hasDetails) {
+            chitiethoadonnhap::where('HDN_Ma', $import_id)->delete();
+        }
+
+        // Sau đó mới xóa hóa đơn nhập chính
+        hoadonnhap::destroy($import_id);
+
+        Session::flash('delete-success', 'Xóa hóa đơn nhập thành công');
+        return redirect()->route('admin-importwarehouse');
+    }
+
 }

@@ -141,7 +141,7 @@ class ProductController extends Controller
     return redirect()->route('admin-product',compact('id','product','product_details'));
   }
   public function delete(Request $request)
-{
+  {
     $product_id = $request->input('product_id');
     
     // Kiểm tra xem có chi tiết sản phẩm nào liên quan không
@@ -163,7 +163,17 @@ class ProductController extends Controller
 
     Session::flash('delete-success', 'Xóa sản phẩm thành công');
     return redirect()->route('admin-product');
-}
+  }
+  public function searchProduct(Request $request) {
+    $SP_Ten = $request->input('SP_Ten');
+    $results = DB::table('sanpham')
+        ->join('loaisanpham','sanpham.LSP_Ma','loaisanpham.LSP_Ma')
+        ->join('chitietsanpham','sanpham.SP_Ma','chitietsanpham.SP_Ma') 
+        ->where('sanpham.SP_Ten', 'LIKE', '%'. $SP_Ten .'%')
+        ->select('sanpham.*','loaisanpham.LSP_Ten','chitietsanpham.CTSP_SoLuong')
+        ->get();
+    return view('pages.admin.product.search-product',compact('results','SP_Ten'));
+  }
 
 
 

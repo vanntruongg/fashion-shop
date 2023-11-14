@@ -31,7 +31,7 @@
                     {{-- <img src="{{ URL::to('/images/admin/fish.png')}}" alt="fish" class="w-16 h-16"> --}}
                     <div class="flex flex-col text-white">
                       <h2 class="uppercase text-14">Số lượng sản phẩm</h2>
-                      <span class="font-bold mt-6 text-20">102</span>
+                      <span class="font-bold mt-6 text-20">{{ $sanpham}}+</span>
                     </div>
                     <div class="mr-10">
                       <i class="fa-solid fa-basket-shopping text-white text-32"></i>
@@ -43,7 +43,7 @@
                   <div class="p-2 flex items-center justify-between">
                     <div class="flex flex-col text-white">
                       <h2 class="uppercase text-14">Tổng số khách hàng</h2>
-                      <span class="font-bold mt-6 text-20">99+</span>
+                      <span class="font-bold mt-6 text-20">{{ $totalCustomer }}+</span>
                     </div>
                     <div class="mr-10">
                       <i class="fa-solid fa-user text-white text-32"></i>
@@ -57,7 +57,7 @@
                     {{-- <img src="{{ URL::to('/images/admin/cart.png')}}" alt="cart" class="w-16 h-16"> --}}
                     <div class="flex flex-col text-white">
                       <h2 class="uppercase text-14 ">Đơn đặt hàng mới</h2>
-                      <span class="font-bold mt-6 text-20">+54<span>
+                      <span class="font-bold mt-6 text-20">+{{ $totalNewOrder }}<span>
                     </div>
                     <div class="mr-10">
                       <i class="fa-solid fa-cart-shopping text-white text-32"></i>
@@ -129,10 +129,15 @@
       
                 <div class="p-2 rounded-2xl h-full shadow-md">
                   <h2 class="text-center text-20 font-thin">Doanh Thu</h2>
-                  <div class="flex flex-col mt-2">
-                    <div class="flex text-20 mt-4">
+                  <div class="flex flex-col mt-44">
+                    <div class="flex">
+                      <p class="w-20 text-16">Sản phẩm:</p>
+                      <span id="revenue-fish" class="text-blue-500 w-[80px] text-right mr-2 ml-10"></span>
+                      <p>vnđ</p>
+                    </div>
+                    <div class="flex text-20 ">
                         <p class="w-20">Tổng:</p>
-                        <span id="total-revenue" class="text-blue-500 w-[120px] text-right mr-2">1.400.000đ</span>
+                        <span id="total-revenue" class="text-blue-500 w-[120px] text-right mr-2"></span>
                         <p>vnđ</p>
                       </div>
                     </div>
@@ -172,41 +177,40 @@
                             </tr>
                             </thead>
                             <tbody>
-                            
+                              @foreach($topCustomer as $key => $customer)
                               <tr class="border-t ">
                                 <td class="p-2 bg-transparent">
                                   <div class="px-2 py-1">
-                                    <h6 class="mb-0 text-sm leading-normal">1</h6>
+                                    <h6 class="mb-0 text-sm leading-normal">{{ ++$key }}</h6>
                                   </div>
                                 </td>
                                 <td class="p-2 bg-transparent text-left">
                                   <div class="px-2 py-1">
-                                    <span class="mb-0 text-sm leading-normal">Lê Thanh Hùng</span>
+                                    <span class="mb-0 text-sm leading-normal">{{ $customer->ND_Ho .' '. $customer->ND_Ten }}</span>
                                   </div>
                                 </td>
                                 <td class="p-2 bg-transparent text-left">
                                   <div class="px-2 py-1">
-                                    <span class="mb-0 text-sm leading-normal">012456788</span>
+                                    <span class="mb-0 text-sm leading-normal">{{ $customer->ND_SDT }}</span>
                                   </div>
                                 </td>
                                 <td class="p-2 bg-transparent">
                                   <div class="px-2 py-1">
-                                    <h6 class="mb-0 text-sm leading-normal">hungb2012020@student.ctu.edu.vn</h6>
+                                    <h6 class="mb-0 text-sm leading-normal">{{ $customer->email }}</h6>
                                   </div>
                                 </td>
                                 <td class="p-2 bg-transparent">
                                   <div class="px-2 py-1">
-                                    <h6 class="mb-0 text-sm leading-normal">Ninh Kiều, Cần Thơ</h6>
+                                    <h6 class="mb-0 text-sm leading-normal">{{ $customer->ND_Diachi }}</h6>
                                   </div>
                                 </td>
                                 <td class="p-2 bg-transparent">
                                   <div class="px-2 py-1 text-center">
-                                    <h6 class="mb-0 text-sm text-yellow-500 leading-normal">680.000đ</h6>
+                                    <h6 class="mb-0 text-sm text-yellow-500 leading-normal">{{ number_format($customer->total_spent, 0, ',', '.') }}đ</h6>
                                   </div>
                                 </td>
                               </tr>
-                            {{-- @endforeach --}}
-      
+                            @endforeach
                             </tbody>
                           </table>
                         </div>
@@ -218,12 +222,8 @@
       
             </div>
       
-      
-      
-      
             <div class="grid grid-cols-4 gap-4 mt-2">
       
-      {{--        Cá--}}
               <div class="col-span-2 rounded-2xl ">
                 <div class="flex flex-wrap -mx-3">
                   <div class="flex flex-col w-full max-w-full px-3">
@@ -245,29 +245,30 @@
                             </tr>
                             </thead>
                             <tbody>
-                           
+                              @foreach($mostProduct as $key => $product)
                               <tr class="border-t ">
                                 <td class="p-2 bg-transparent">
                                   <div class="px-2 py-1">
-                                    <h6 class="mb-0 text-sm leading-normal">1</h6>
+                                    <h6 class="mb-0 text-sm leading-normal">{{ ++$key }}</h6>
                                   </div>
                                 </td>
                                 <td class="p-2 bg-transparent text-left">
                                   <div class="px-2 py-1">
-                                    <h6 class="mb-0 text-sm leading-normal">Áo Polo</h6>
+                                    <h6 class="mb-0 text-sm leading-normal">{{ $product->LSP_Ten }}</h6>
                                   </div>
                                 </td>
                                 <td class="p-2 bg-transparent text-left">
                                   <div class="px-2 py-1 w-[180px]">
-                                    <h6 class="mb-0 text-sm leading-normal truncate">Áo Polo Đơn Giản</h6>
+                                    <h6 class="mb-0 text-sm leading-normal truncate">{{ $product->SP_Ten}}</h6>
                                   </div>
                                 </td>
                                 <td class="p-2 bg-transparent">
                                   <div class="px-2 py-1 text-center">
-                                    <h6 class="mb-0 text-sm text-red-400 leading-normal">40</h6>
+                                    <h6 class="mb-0 text-sm text-red-400 leading-normal">{{ $product->totalQuantity }}</h6>
                                   </div>
                                 </td>
                               </tr>
+                            @endforeach
                            
       
                             </tbody>
@@ -294,28 +295,30 @@
                             </thead>
                             <tbody>
                            
-                              <tr class="border-t">
+                              @foreach($leastProduct as $key => $product)
+                              <tr class="border-t ">
                                 <td class="p-2 bg-transparent">
                                   <div class="px-2 py-1">
-                                    <h6 class="mb-0 text-sm leading-normal">1</h6>
+                                    <h6 class="mb-0 text-sm leading-normal">{{ ++$key }}</h6>
                                   </div>
                                 </td>
                                 <td class="p-2 bg-transparent text-left">
                                   <div class="px-2 py-1">
-                                    <h6 class="mb-0 text-sm leading-normal">Quần Short</h6>
+                                    <h6 class="mb-0 text-sm leading-normal">{{ $product->LSP_Ten }}</h6>
                                   </div>
                                 </td>
                                 <td class="p-2 bg-transparent text-left">
                                   <div class="px-2 py-1 w-[180px]">
-                                    <h6 class="mb-0 text-sm leading-normal truncate">Kiểu Boxer</h6>
+                                    <h6 class="mb-0 text-sm leading-normal truncate">{{ $product->SP_Ten}}</h6>
                                   </div>
                                 </td>
                                 <td class="p-2 bg-transparent">
                                   <div class="px-2 py-1 text-center">
-                                    <h6 class="mb-0 text-sm text-red-400 leading-normal">0</h6>
+                                    <h6 class="mb-0 text-sm text-red-400 leading-normal">{{ $product->totalQuantity }}</h6>
                                   </div>
                                 </td>
                               </tr>
+                            @endforeach
                          
       
                             </tbody>
@@ -351,28 +354,30 @@
                             </thead>
                             <tbody>
                             
-                              <tr class="border-t">
+                              @foreach($mostCategory as $key => $category)
+                              <tr class="border-t ">
                                 <td class="p-2 bg-transparent">
                                   <div class="px-2 py-1">
-                                    <h6 class="mb-0 text-sm leading-normal"></h6>
+                                    <h6 class="mb-0 text-sm leading-normal">{{ ++$key }}</h6>
                                   </div>
                                 </td>
                                 <td class="p-2 bg-transparent text-left">
                                   <div class="px-2 py-1">
-                                    <h6 class="mb-0 text-sm leading-normal"></h6>
+                                    <h6 class="mb-0 text-sm leading-normal">{{ $category->DM_Ten}}</h6>
                                   </div>
                                 </td>
                                 <td class="p-2 bg-transparent text-left">
                                   <div class="px-2 py-1 w-[180px]">
-                                    <h6 class="mb-0 text-sm leading-normal truncate"></h6>
+                                    <h6 class="mb-0 text-sm leading-normal truncate">{{ $category->LSP_Ten}}</h6>
                                   </div>
                                 </td>
                                 <td class="p-2 bg-transparent">
                                   <div class="px-2 py-1 text-center">
-                                    <h6 class="mb-0 text-sm text-red-400 leading-normal"></h6>
+                                    <h6 class="mb-0 text-sm text-red-400 leading-normal">{{ $category->totalQuantity }}</h6>
                                   </div>
                                 </td>
                               </tr>
+                            @endforeach
                                 
       
                             </tbody>
@@ -399,30 +404,30 @@
                             </thead>
                             <tbody>
                            
-                              <tr class="border-t">
+                              @foreach($leastCategory as $key => $category)
+                              <tr class="border-t ">
                                 <td class="p-2 bg-transparent">
                                   <div class="px-2 py-1">
-                                    <h6 class="mb-0 text-sm leading-normal"></h6>
+                                    <h6 class="mb-0 text-sm leading-normal">{{ ++$key }}</h6>
                                   </div>
                                 </td>
                                 <td class="p-2 bg-transparent text-left">
                                   <div class="px-2 py-1">
-                                    <h6 class="mb-0 text-sm leading-normal"></h6>
+                                    <h6 class="mb-0 text-sm leading-normal">{{ $category->DM_Ten}}</h6>
                                   </div>
                                 </td>
-                                <td class="p-2 bg-transparent">
+                                <td class="p-2 bg-transparent text-left">
                                   <div class="px-2 py-1 w-[180px]">
-                                    <h6 class="mb-0 text-14 leading-normal truncate "></h6>
+                                    <h6 class="mb-0 text-sm leading-normal truncate">{{ $category->LSP_Ten}}</h6>
                                   </div>
                                 </td>
                                 <td class="p-2 bg-transparent">
                                   <div class="px-2 py-1 text-center">
-                                    <h6 class="mb-0 text-sm text-red-400 leading-normal"></h6>
+                                    <h6 class="mb-0 text-sm text-red-400 leading-normal">{{ $category->totalQuantity }}</h6>
                                   </div>
                                 </td>
                               </tr>
-                            
-      
+                            @endforeach
                             </tbody>
                           </table>
                         </div>

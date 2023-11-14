@@ -17,9 +17,9 @@
 
       <div class="w-[40%] pl-4  bg-white rounded-md focus-within:to-blue-300 -ml-3 my-4 ">
         {{-- <form action="{{ route('search-fish') }}" method="get" class="flex justify-between"> --}}
-        <form action="" method="get" class="flex justify-between w-full ">
+        <form action="{{route('search-product')}}" method="get" class="flex justify-between w-full ">
           @csrf
-          <input type="text" placeholder="Tìm kiếm..." name="fish_name" class="focus:border-red-500 border px-2 py-2 rounded-md outline-none w-full bg-white " required>
+          <input type="text" placeholder="Tìm kiếm..." name="SP_Ten" class="focus:border-red-500 border px-2 py-2 rounded-md outline-none w-full bg-white " required>
           <button type="submit" class="inline-block mr-4 mt-2">
             <i class="fa-solid fa-magnifying-glass text-22 text-gray-500 relative -left-8 bottom-0.5"></i>
           </button>

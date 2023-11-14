@@ -117,3 +117,39 @@ if(cancelDeletePortfolio) {
   })
 }
 
+//importwarehouse
+const modalDeleteImportwarehouse= $('.modal-delete-importwarehouse');
+const cancelDeleteImportwarehouse = $('.cancel-delete-importwarehouse');
+const listBtnDeleteImportwarehouse = $$('.delete-importwarehouse');
+const idImportwarehouse = document.getElementById('idImportwarehouse');
+
+if (listBtnDeleteImportwarehouse) {
+  listBtnDeleteImportwarehouse.forEach(btnDeletePortfolio => {
+    btnDeletePortfolio.addEventListener('click', function () {
+      const importwarehouseId = btnDeletePortfolio.dataset.id;
+
+      if (idImportwarehouse) {
+        idImportwarehouse.value = importwarehouseId;
+      }
+      
+      overlayDelete.classList.remove('hidden');
+      modalDeleteImportwarehouse.classList.remove('hidden');
+      
+      console.log(idImportwarehouse.value);
+    })
+  });
+}
+
+if(overlayDelete) {
+  overlayDelete.addEventListener('click', function() {
+    overlayDelete.classList.add('hidden');
+    modalDeleteImportwarehouse.classList.add('hidden');
+  })
+}
+
+if(cancelDeleteImportwarehouse) {
+  cancelDeleteImportwarehouse.addEventListener('click', function() {
+    overlayDelete.classList.add('hidden');
+    modalDeleteImportwarehouse.classList.add('hidden');
+  })
+}

@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\Product\CategoryController;
 use App\Http\Controllers\Admin\Product\PortfolioConTroller;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\StatisticsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 
@@ -109,6 +110,8 @@ Route::prefix('/admin')->middleware('auth.admin')->group(function () {
     Route::post('product/{id}/update-product', [ProductController::class, 'postUpdateProduct']);
         //delele product
     Route::post('delele-product', [ProductController::class, 'delete'])->name('delete-product');
+        //search
+    Route::get('search-product', [ProductController::class, 'searchProduct'])->name('search-product');
     //category
         //create
     Route::get('/product/new-category', [CategoryController::class, 'newCategory'])->name('new-category');
@@ -127,7 +130,7 @@ Route::prefix('/admin')->middleware('auth.admin')->group(function () {
     Route::post('portfolio/{id}/update-portfolio', [PortfolioConTroller::class, 'updatePortfolio']);
         //delele
     Route::post('delele-portfolio', [PortfolioConTroller::class, 'delete'])->name('delete-portfolio');
-    //user
+    //users
         //create
     Route::get('/users/new-users', [UserController::class, 'newUser'])->name('new-users');
     Route::post('/users/new-users', [UserController::class, 'createUsers']);
@@ -136,6 +139,8 @@ Route::prefix('/admin')->middleware('auth.admin')->group(function () {
     Route::post('/users/{id}/update-users', [UserController::class, 'updateUsers']);
         //delete
     Route::post('delele-user', [UserController::class, 'delete'])->name('delete-user');
+        //search
+    Route::get('search-users', [UserController::class,'searchUser'])->name('search-users');
 
     //orders
     Route::get('/orders/{id}/order_details', [OrderController::class, 'getOrderdetails'])->name('order_details');
@@ -149,5 +154,14 @@ Route::prefix('/admin')->middleware('auth.admin')->group(function () {
         //create
     Route::get('/importwarehouse/new-importwarehouse',[ImportwarehouseController::class, 'newImportwarehouse'])->name('new-importwarehouse');
     Route::post('/importwarehouse/new-importwarehouse',[ImportwarehouseController::class, 'createImportwareHouse']);
+        //update
+    Route::get('/importwarehouse/{id}/update',[ImportwarehouseController::class, 'getUpdateimportwarehouse'])->name('update-importwarehouse');
+    Route::post('/importwarehouse/{id}/update',[ImportwarehouseController::class, 'updateImportwarehouse']);
+        //delete
+    Route::post('/delele-importwarehouse', [ImportwarehouseController::class, 'deleteImportwarehouse'])->name('delete-importwarehouse');
+    
+    Route::get('/last-week', [StatisticsController::class, 'dataLastWeek']);
+    Route::get('/last-seven-days', [StatisticsController::class, 'dataLastSevenDays']);
+    Route::post('/period', [StatisticsController::class, 'dataPeriod']);
 });
 

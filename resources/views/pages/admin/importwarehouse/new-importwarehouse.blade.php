@@ -104,7 +104,7 @@
                                 </div>
                     
                                 <input
-                                  id="input-file-img[]"
+                                  id="input-file-img"
                                   type="file"
                                   name="product-img[]"
                                   placeholder=""

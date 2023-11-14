@@ -93,13 +93,16 @@
                                 <h6 class="mb-0 text-sm leading-normal ">{{$hdn ->HDN_GhiChu}}</h6>
                             </div>
                           </td>
-                          <td class="flex bg-transparent mt-4 justify-center items-center">
+                          <td class="flex bg-transparent mt-4 justify-center items-center ">
                             {{-- {{route('update-portfolio',['id' => $portfolio->DM_STT])}} --}}
                             <a href="{{route('importwarehouse-details',['id' => $hdn->HDN_Ma])}}" class="text-16 mr-4 text-blue-500">
                                 <button type="submit" class="text-12 text-primary-blue leading-normal border-2 border-blue-400 hover:border-red-400  px-4 py-2 rounded-xl hover:bg-red-500  hover:text-white transition-all duration-200">Xem Chi Tiết</button>
                             </a>
+                            <a href="{{route('update-importwarehouse',['id' => $hdn->HDN_Ma])}}" class="text-16 mr-4 text-blue-500">
+                              <button type="submit" class="text-12 text-yellow-600 leading-normal border-2 border-yellow-400 hover:border-red-400  px-4 py-2 rounded-xl hover:bg-red-500  hover:text-white transition-all duration-200">Chỉnh sửa</button>
+                          </a>
                             {{-- <button class="delete-fish text-16 mr-2 text-red-300 cursor-pointer" data-id="{{$fish->fish_id}}"> --}}
-                                <button class="delete-hdn text-12 text-red-400 leading-normal border-2 border-red-400  px-4 py-2 rounded-xl hover:bg-red-400  hover:text-white transition-all duration-200 " data-id="">Xóa</button>
+                                <button class="delete-importwarehouse text-12 text-red-400 leading-normal border-2 border-red-400  px-4 py-2 rounded-xl hover:bg-red-400  hover:text-white transition-all duration-200 " data-id="{{$hdn->HDN_Ma}}">Xóa</button>
                           </td>
                         </tr>
                       @endforeach

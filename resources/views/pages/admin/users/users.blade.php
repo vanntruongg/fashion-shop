@@ -18,9 +18,9 @@
    
     <div class="w-[40%] pl-4 bg-white rounded-md focus-within:to-blue-300 -ml-3 my-4 ">
       {{-- <form action="{{ route('search-fish') }}" method="get" class="flex justify-between"> --}}
-      <form action="" method="get" class="flex justify-between w-full">
+      <form action="{{route('search-users')}}" method="get" class="flex justify-between w-full">
         @csrf
-        <input type="text" placeholder="Tìm kiếm..." name="fish_name" class="focus:border-red-500 rounded-md outline-none w-full bg-white border-2 py-2 px-2" required>
+        <input type="text" placeholder="Tìm kiếm..." name="ND_Ten" class="focus:border-red-500 rounded-md outline-none w-full bg-white border-2 py-2 px-2" required>
         <button type="submit" class="inline-block mr-4 mt-2">
           <i class="fa-solid fa-magnifying-glass text-22 text-gray-500 relative -left-8 bottom-1"></i>
         </button>
@@ -56,16 +56,13 @@
       <div class="flex flex-col w-full max-w-full px-3">
         <div class="flex flex-col min-w-[980px] mb-6 break-words bg-white border-0 border-transparent border-solid shadow-md rounded-lg bg-clip-border overflow-hidden">
           <div class="flex p-2 py-2 items-center justify-between">
-            {{-- @if($userName)
-              <h3 class="text-[#344767] text-20 font-sora">Kết quả tìm kiếm người dùng tên "{{ $userName }}"</h3>
+            {{-- @if($ND_Ten)
+              <h3 class="text-[#344767] text-20 font-sora">Kết quả tìm kiếm người dùng tên "{{ $ND_Ten }}"</h3>
             @else
               <h3 class="text-[#344767] text-20 font-sora">Danh sách người dùng</h3>
             @endif --}}
 
-            <a href="" class="border pr-4 pl-2 py-2 hover:bg-slate-100 hover:text-primary-blue transition-all">
-              <i class="fa-solid fa-plus mx-1"></i>
-              <span class="">Tạo mới</span>
-            </a>
+           
           </div>
           <div class="flex-auto px-0 pt-0">
             <div class="p-0 overflow-x-auto place-self-auto">

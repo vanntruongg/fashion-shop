@@ -6,11 +6,58 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
-
+use App\Models\chitietsanpham;
+use App\Models\chitiethoadon;
+use App\Models\hoadon;
+use App\Models\loaisanpham;
+use App\Models\sanpham;
 class AdminController extends Controller
 {
+    public function getTopProduct( $limit = 2, $isDescending = true) {
+        return DB::table('chitiethoadon')
+          ->join('sanpham', 'sanpham.SP_Ma', '=', 'chitiethoadon.SP_Ma')
+          ->join('loaisanpham', 'sanpham.LSP_Ma', '=', 'loaisanpham.LSP_Ma')
+          ->select('sanpham.SP_Ten', 'loaisanpham.LSP_Ten', DB::raw('SUM(CTHD_SoLuong) as totalQuantity'))
+          ->groupBy('sanpham.SP_Ten', 'loaisanpham.LSP_Ten')
+          ->orderBy('totalQuantity', $isDescending ? 'desc' : 'asc')
+          ->take($limit)
+          ->get();
+    }
+    public function getTopCategory( $limit = 2, $isDescending = true) {
+        return DB::table('chitiethoadon')
+          ->join('sanpham', 'sanpham.SP_Ma', '=', 'chitiethoadon.SP_Ma')
+          ->join('loaisanpham', 'sanpham.LSP_Ma', '=', 'loaisanpham.LSP_Ma')
+          ->join('danhmuc','loaisanpham.DM_STT','=','danhmuc.DM_STT')
+          ->select('sanpham.SP_Ten', 'loaisanpham.LSP_Ten','danhmuc.DM_Ten', DB::raw('SUM(CTHD_SoLuong) as totalQuantity'))
+          ->groupBy('sanpham.SP_Ten', 'loaisanpham.LSP_Ten','danhmuc.DM_Ten')
+          ->orderBy('totalQuantity', $isDescending ? 'desc' : 'asc')
+          ->take($limit)
+          ->get();
+    }
+
     public function index() {
-        return view('pages.admin.dashboard');
+        $sanpham = Sanpham::all()->count();
+        $totalCustomer = User::where('ND_VT', '=',  2)->count();
+        
+        $totalNewOrder = hoadon::all()->count();
+
+        $topCustomer = DB::table('users')
+        ->join('hoadon', 'users.id', '=', 'hoadon.ND_id')
+        ->join('chitiethoadon', 'hoadon.HD_Ma', '=', 'chitiethoadon.HD_Ma')
+        ->select('users.ND_Ho', 'users.ND_Ten', 'users.ND_SDT', 'users.email', 'users.ND_Diachi', DB::raw('SUM(chitiethoadon.CTHD_DonGia * chitiethoadon.CTHD_SoLuong) AS total_spent'))
+        ->groupBy('users.ND_Ho',  'users.ND_Ten', 'users.ND_SDT', 'users.email', 'users.ND_Diachi')
+        ->orderByDesc('total_spent')
+        ->limit(2)
+        ->get();
+        
+        $mostProduct = $this->getTopProduct(2, true);
+    
+        $leastProduct = $this->getTopProduct(2, false);
+
+        $mostCategory = $this->getTopCategory(2, true);
+        $leastCategory = $this->getTopCategory(2, false);
+        return view('pages.admin.dashboard',compact('sanpham','totalCustomer','totalNewOrder','topCustomer','mostProduct','leastProduct','mostCategory','leastCategory'));
+
     }
     public function product(Request $request ) {
         $page = $request->query('page',1);

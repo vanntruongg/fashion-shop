@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class hoadonnhap extends Model
 {
     protected $table = 'hoadonnhap';
+    protected $primaryKey = 'HDN_Ma';
     protected $fillable = [
         'HDN_Ma',
         'HDN_Ngay',

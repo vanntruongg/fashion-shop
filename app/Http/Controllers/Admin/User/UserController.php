@@ -46,7 +46,9 @@ class UserController extends Controller
     
         $avatar = $request->file('ND_avt');
         if ($avatar) {
-            $avatarPath = $avatar->store('images/users', 'public');
+            // $avatarPath = $avatar->store('public/images/users');
+            // $avatarUrl = Storage::url($avatarPath);
+            $avatarPath = $avatar->storeAs('public/images/users', $avatar->hashName());
             $avatarUrl = Storage::url($avatarPath);
         } else {
             $avatarUrl = '/storage/images/admin/user_default.png';
@@ -99,7 +101,7 @@ class UserController extends Controller
           $ND_SDT = $request->input('ND_SDT');
           $email = $request->input('email');
           $ND_Diachi = $request->input('ND_Diachi');
-          
+          $password = $request->input('password');
           DB::table('users')
             ->where('id', $id)
             ->update([
@@ -109,10 +111,11 @@ class UserController extends Controller
               'ND_SDT' => $ND_SDT,
               'email' => $email,
               'ND_Diachi' => $ND_Diachi,
-              'ND_avt' => $avatarUrl
+              'ND_avt' => $avatarUrl,
+              'password' => Hash::make($password)
             ]);
           Session::flash('update-success', 'Cập nhật người dùng thành công.');
-          return redirect()->route('admin-users');
+          return redirect()->route('admin-users',compact('password'));
     }   
     public function delete(Request $request)
     {

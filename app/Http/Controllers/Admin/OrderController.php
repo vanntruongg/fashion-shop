@@ -51,7 +51,7 @@ class OrderController extends Controller
             ->where('HD_Ma', '=', $order_id)
             ->exists();
     
-        // Nếu có chi tiết sản phẩm, hãy xóa chúng trước
+        // Nếu có chi tiết sản phẩm, hãy xóa trước
         if ($hasDetails) {
             DB::table('chitiethoadon')
                 ->where('HD_Ma', '=', $order_id )

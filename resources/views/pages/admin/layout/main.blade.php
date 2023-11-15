@@ -15,6 +15,7 @@
     './resources/js/admin/product.js',
     './resources/js/admin/user.js',
     './resources/js/admin/order.js',
+    './resources/js/info-user.js',
   ])
 </head>
 <body class="scrollbar-thin scroll-smooth scrollbar-thumb-rounded-lg scrollbar-thumb-blue-200 scrollbar-track-gray-100">

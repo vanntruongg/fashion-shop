@@ -51,9 +51,8 @@
               <img
                 id="img-preview"
                 src="{{ URL::to('/storage/images/admin/user_default.png')}}"
-                alt="avatar"
+                alt="ND_avt"
                 class="w-full h-full rounded-full ml-3"
-                
               >
                 
             </div>
@@ -219,22 +218,6 @@
 
 @endsection
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById('input-file-img').addEventListener('change', function (event) {
-      const input = event.target;
-      if (input.files && input.files[0]) {
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-          document.getElementById('img-preview').src = e.target.result;
-        };
-
-        reader.readAsDataURL(input.files[0]);
-      }
-    });
-  });
-</script>
 @section('footer')
   @include('pages.admin.layout.footer')
 @endsection

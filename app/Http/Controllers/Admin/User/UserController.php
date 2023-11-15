@@ -21,6 +21,7 @@ class UserController extends Controller
 
     public function createUsers(Request $request)
     {
+        
         // Thông báo validation
         $messages = [
             'required' => 'Vui lòng nhập :attribute.',
@@ -45,15 +46,11 @@ class UserController extends Controller
     
         $avatar = $request->file('ND_avt');
         if ($avatar) {
-            $avatarPath =$avatar->store('public/images/users');
+            $avatarPath = $avatar->store('images/users', 'public');
             $avatarUrl = Storage::url($avatarPath);
         } else {
             $avatarUrl = '/storage/images/admin/user_default.png';
         }
-        // $avatar = $request->file('ND_avt');
-        // $avatarPath = $avatar->store('public/images/users');
-
-        // $avatarUrl = Storage::url($avatarPath);
         //nd mới
         $user = User::firstOrNew(['email' => $request->input('email')], [
             'ND_VT' => $request->input('ND_VT'),
@@ -87,14 +84,14 @@ class UserController extends Controller
         if ($avatar) {
             $avatarPath = $avatar->store('public/images/users');
             $avatarUrl = Storage::url($avatarPath);
-            $filePath = public_path($user->link_avt);
+            $filePath = public_path($user->ND_avt);
             if (File::exists($filePath)) {
               File::delete($filePath);
             }
-          } else if($user->link_avt) {
-            $avatarUrl = $user->link_avt;
+          } else if($user->ND_avt) {
+            $avatarUrl = $user->ND_avt;
           } else {
-            $avatarUrl = Storage::url('/storage/images/admin/user_default.png');
+            $avatarUrl = Storage::url('/images/admin/user_default.png');
           }
           $ND_VT = $request->input('ND_VT');
           $ND_Ho = $request->input('ND_Ho');
@@ -102,7 +99,7 @@ class UserController extends Controller
           $ND_SDT = $request->input('ND_SDT');
           $email = $request->input('email');
           $ND_Diachi = $request->input('ND_Diachi');
-    
+          
           DB::table('users')
             ->where('id', $id)
             ->update([

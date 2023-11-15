@@ -42,7 +42,7 @@
               
               <img
                 id="img-preview"
-                src="{{ $user->ND_avt ? asset($user->ND_avt) : asset('images/admin/user_default.png') }}"
+                src="{{ $user->ND_avt ? $user->ND_avt : URL::to('images/admin/user_default.png') }}"
                 alt="avatar"
                 class="w-full h-full rounded-full ml-3"
             
@@ -58,9 +58,9 @@
             <input
               id="input-file-img"
               type="file"
-              name="avatar"
+              name="ND_avt"
               hidden
-              value=""
+              accept="input-file-img/*"
               class="py-8 text-14 border border-slate-500 file:ml-2 rounded-lg border-dashed text-slate-500 cursor-pointer file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-none file:bg-[#5490f0] file:text-white file:cursor-pointer file:hover:bg-blue-100"
             >
           </div>
@@ -212,22 +212,7 @@
 
 @endsection
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById('input-file-img').addEventListener('change', function (event) {
-      const input = event.target;
-      if (input.files && input.files[0]) {
-        const reader = new FileReader();
 
-        reader.onload = function (e) {
-          document.getElementById('img-preview').src = e.target.result;
-        };
-
-        reader.readAsDataURL(input.files[0]);
-      }
-    });
-  });
-</script>
 @section('footer')
   @include('pages.admin.layout.footer')
 @endsection

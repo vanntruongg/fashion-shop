@@ -366,7 +366,7 @@ if(btnPeriod) {
 
     // reset = 0
     revenueFish.innerHTML = 0;
-    revenueAccessories.innerHTML = 0;
+    
     totalRevenue.innerHTML = 0;
 
     if (lastWeekChartDraw) {

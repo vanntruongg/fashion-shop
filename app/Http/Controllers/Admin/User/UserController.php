@@ -45,26 +45,35 @@ class UserController extends Controller
         ], $messages);
     
         
-        // if ($avatar) {
-        //     // $avatarPath = $avatar->store('public/images/users');
-        //     // $avatarUrl = Storage::url($avatarPath);
-        //     $avatarPath = $avatar->storeAs('public/images/users', $avatar->hashName());
-        //     $avatarUrl = Storage::url($avatarPath);
-        // } else {
-        //     $avatarUrl = '/storage/images/admin/user_default.png';
-        // }
-        if($request->files->has('user-img')) {
-            $file = $request->file('user-img');
-            $userImg = $request->file('user-img')->getClientOriginalName();
+//         // if ($avatar) {
+//         //     // $avatarPath = $avatar->store('public/images/users');
+//         //     // $avatarUrl = Storage::url($avatarPath);
+//         //     $avatarPath = $avatar->storeAs('public/images/users', $avatar->hashName());
+//         //     $avatarUrl = Storage::url($avatarPath);
+//         // } else {
+//         //     $avatarUrl = '/storage/images/admin/user_default.png';
+//         // }
+//         if($request->files->has('user-img')) {
+//             $file = $request->file('user-img');
+//             $userImg = $request->file('user-img')->getClientOriginalName();
       
-            $avtdb = '/storage/images/users/'. $userImg ;
-            $path = 'public/storage/images/users/';
+//             $avtdb = '/storage/images/users/'. $userImg ;
+//             $path = 'public/storage/images/users/';
       
-            $file->move(base_path($path), $userImg );
-            $avatarUrl = $avtdb;
-          } else {
-            $avatarUrl = '/storage/images/admin/user_default.png';
-          }
+//             $file->move(base_path($path), $userImg );
+//             $avatarUrl = $avtdb;
+//           } else {
+//             $avatarUrl = '/storage/images/admin/user_default.png';
+//           }
+// =======
+//         $avatar = $request->file('ND_avt');
+//         if ($avatar) {
+//             $avatarPath = $avatar->store('images/users', 'public');
+//             $avatarUrl = Storage::url($avatarPath);
+//         } else {
+//             $avatarUrl = '/storage/images/admin/user_default.png';
+//         }
+// >>>>>>> main
         //nd mới
         $user = User::firstOrNew(['email' => $request->input('email')], [
             'ND_VT' => $request->input('ND_VT'),
@@ -110,6 +119,18 @@ class UserController extends Controller
             $avatarUrl = $avtdb;
           } else {
             $avatarUrl  = $user->ND_avt;
+        $avatar = $request->file('ND_avt');
+        if ($avatar) {
+            $avatarPath = $avatar->store('public/images/users');
+            $avatarUrl = Storage::url($avatarPath);
+            $filePath = public_path($user->ND_avt);
+            if (File::exists($filePath)) {
+              File::delete($filePath);
+            }
+          } else if($user->ND_avt) {
+            $avatarUrl = $user->ND_avt;
+          } else {
+            $avatarUrl = Storage::url('/images/admin/user_default.png');
           }
           $ND_VT = $request->input('ND_VT');
           $ND_Ho = $request->input('ND_Ho');
@@ -118,6 +139,7 @@ class UserController extends Controller
           $email = $request->input('email');
           $ND_Diachi = $request->input('ND_Diachi');
           $password = $request->input('password');
+          
           DB::table('users')
             ->where('id', $id)
             ->update([

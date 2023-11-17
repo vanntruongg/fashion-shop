@@ -6,7 +6,7 @@
     </div>
     {{-- Search --}}
     <div class="flex-auto border-[1.5px] border-slate-300 rounded-full relative transition-all duration-100 focus-within:border-primary-600">
-      <form action="{{ route('search-product') }}" method="GET">
+      <form action="{{ route('user-search-product') }}" method="GET">
         {{-- @csrf --}}
         <input name="key" type="text" placeholder="Nhập từ khóa tìm kiếm..." required class="w-full px-4 p-2 rounded-full">
         <button class="bg-gray-300 text-gray-500 h-[90%] my-0.5 px-6 absolute right-0.5 rounded-full">
@@ -20,7 +20,7 @@
     {{-- Cart --}}
     <a href="/cart" class="relative">
       <i class="fa-solid fa-cart-shopping"></i>
-      <span class="bg-red-500 text-white text-12 font-medium flex items-center justify-center absolute -top-2 -right-2 w-4 h-4 rounded-full">3</span>
+      {{-- <span class="bg-red-500 text-white text-12 font-medium flex items-center justify-center absolute -top-2 -right-2 w-4 h-4 rounded-full">3</span> --}}
     </a>
     {{-- Login --}}
     @if (Auth::check())

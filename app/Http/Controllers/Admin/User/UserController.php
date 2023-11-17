@@ -44,15 +44,27 @@ class UserController extends Controller
             'ND_avt' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ], $messages);
     
-        $avatar = $request->file('ND_avt');
-        if ($avatar) {
-            // $avatarPath = $avatar->store('public/images/users');
-            // $avatarUrl = Storage::url($avatarPath);
-            $avatarPath = $avatar->storeAs('public/images/users', $avatar->hashName());
-            $avatarUrl = Storage::url($avatarPath);
-        } else {
+        
+        // if ($avatar) {
+        //     // $avatarPath = $avatar->store('public/images/users');
+        //     // $avatarUrl = Storage::url($avatarPath);
+        //     $avatarPath = $avatar->storeAs('public/images/users', $avatar->hashName());
+        //     $avatarUrl = Storage::url($avatarPath);
+        // } else {
+        //     $avatarUrl = '/storage/images/admin/user_default.png';
+        // }
+        if($request->files->has('user-img')) {
+            $file = $request->file('user-img');
+            $userImg = $request->file('user-img')->getClientOriginalName();
+      
+            $avtdb = '/storage/images/users/'. $userImg ;
+            $path = 'public/storage/images/users/';
+      
+            $file->move(base_path($path), $userImg );
+            $avatarUrl = $avtdb;
+          } else {
             $avatarUrl = '/storage/images/admin/user_default.png';
-        }
+          }
         //nd mới
         $user = User::firstOrNew(['email' => $request->input('email')], [
             'ND_VT' => $request->input('ND_VT'),
@@ -82,18 +94,22 @@ class UserController extends Controller
 
     public function updateUsers($id,Request $request) {
         $user = User::find($id);
-        $avatar = $request->file('ND_avt');
-        if ($avatar) {
-            $avatarPath = $avatar->store('public/images/users');
-            $avatarUrl = Storage::url($avatarPath);
-            $filePath = public_path($user->ND_avt);
-            if (File::exists($filePath)) {
-              File::delete($filePath);
-            }
-          } else if($user->ND_avt) {
-            $avatarUrl = $user->ND_avt;
+        if ($request->hasFile('user-img')) {
+            $oldImg = $user->ND_avt;
+            $oldImagePath = public_path('storage/images/users/' . $oldImg);
+            if (file_exists($oldImagePath)) {
+              unlink($oldImagePath); // Xóa ảnh cũ
+          }
+            $file = $request->file('user-img');
+            $userImg = $file->getClientOriginalName();
+        
+            $avtdb = '/storage/images/users/'. $userImg;
+            $path = 'public/storage/images/users/';
+      
+            $file->move(base_path($path), $userImg);
+            $avatarUrl = $avtdb;
           } else {
-            $avatarUrl = Storage::url('/images/admin/user_default.png');
+            $avatarUrl  = $user->ND_avt;
           }
           $ND_VT = $request->input('ND_VT');
           $ND_Ho = $request->input('ND_Ho');

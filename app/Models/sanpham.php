@@ -30,5 +30,10 @@ class sanpham extends Model
     return $this->morphMany(chitiethoadonnhap::class, 'importcthdn');
     }
 
+    public function chitietsanpham()
+    {
+    return $this->hasMany(ChiTietSanPham::class, 'SP_Ma');
+    }
+
     
 }

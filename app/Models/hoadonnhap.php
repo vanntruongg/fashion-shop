@@ -21,4 +21,9 @@ class hoadonnhap extends Model
     {
       return $this->morphTo();
     }
+
+    public function chitiethoadonnhap()
+  {
+    return $this->hasMany(ChiTietHoaDonNhap::class, 'HDN_Ma');
+  } 
 }

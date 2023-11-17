@@ -58,6 +58,7 @@
             <input
               id="input-file-img"
               type="file"
+              name="user-img"
               name="ND_avt"
               hidden
               accept="input-file-img/*"
@@ -193,7 +194,7 @@
             <input
               type="password"
               name="password"
-              placeholder="Password"
+              value="{{$user->password}}"
               class="py-1.5 px-2 w-full outline-none rounded-lg placeholder:text-14 text-14"
             >
           </div>

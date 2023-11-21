@@ -31,40 +31,59 @@ class ProductController extends Controller
     return view('pages.admin.product.new-product',compact('loaisanpham','mausac','kichthuoc','soluong'));
     }
     public function createProduct(Request $request) {
-        $productImg = $request->file('product-img');
-        if ($productImg) {
-          $linkImgPath = $productImg->store('public/images/products');
-          $productImgURL = Storage::url($linkImgPath);
+
+        //dd($request->files->has('product_img'));
+       
+
+        //dd($file, $productImg);
+        //dd($productImg);
+        //$productImg = $request->file('product-img');
+        //dd($productImg->originalName);
+        if ($request->files->has('product-img')) {
+          //$linkImgPath = $productImg->store('public/images/products');
+          
+          $file = $request->file('product-img');
+          $productImg = $request->file('product-img')->getClientOriginalName();
+
+          $avtdb = '/storage/images/products/'.$productImg;
+          $path = 'public/storage/images/products/';
+
+          //dd($avtdb, $path, $linkImgPath, $pro);
+
+          $file->move(base_path($path), $productImg);
+
+          $productImgURL = $avtdb;
+          //$productImgURL = Storage::url($linkImgPath);
         } else {
           $productImgURL = '/storage/images/admin/shirt_default.png';
         }
 
-    $SP_LSP = $request->input('SP_LSP');
-    $SP_Ten = $request->input('SP_Ten');
-    $SP_Chatlieu = $request->input('SP_Chatlieu');
-    $SP_Mausac = $request->input('SP_Mausac');
-    $SP_Kichthuoc = $request->input('SP_Kichthuoc');
-    $SP_Gia = $request->input('SP_Gia');
-    $SP_Soluong = $request->input('SP_Soluong');
+      $SP_LSP = $request->input('SP_LSP');
+      $SP_Ten = $request->input('SP_Ten');
+      $SP_Chatlieu = $request->input('SP_Chatlieu');
+      $SP_Mausac = $request->input('SP_Mausac');
+      $SP_Kichthuoc = $request->input('SP_Kichthuoc');
+      $SP_Gia = $request->input('SP_Gia');
+      $SP_Soluong = $request->input('SP_Soluong');
 
-    $sanpham = SanPham::create([
-        'SP_Ten' => $SP_Ten,
-        'SP_ChatLieu' => $SP_Chatlieu,
-        'SP_HinhAnh' => $productImgURL,
-        'SP_Gia' => $SP_Gia,
-        'LSP_Ma' => intval($SP_LSP),
-    ]);
+      $sanpham = SanPham::create([
+          'SP_Ten' => $SP_Ten,
+          'SP_ChatLieu' => $SP_Chatlieu,
+          'SP_HinhAnh' => $productImgURL,
+          'SP_Gia' => $SP_Gia,
+          'LSP_Ma' => intval($SP_LSP),
+      ]);
 
-    // Lấy ID của sản phẩm vừa thêm
-    $SP_Ma = $sanpham->id;
+      // Lấy ID của sản phẩm vừa thêm
+      $SP_Ma = $sanpham->id;
 
-    ChiTietSanPham::create([
-        'CTSP_SoLuong' => $SP_Soluong,
-        'MS_Ma' => intval($SP_Mausac),
-        'KT_Ma' => intval($SP_Kichthuoc),
-        'SP_Ma' => $SP_Ma, 
-    ]);
-      Session::flash('add-success','Thêm sản phẩm thành công');
+      ChiTietSanPham::create([
+          'CTSP_SoLuong' => $SP_Soluong,
+          'MS_Ma' => intval($SP_Mausac),
+          'KT_Ma' => intval($SP_Kichthuoc),
+          'SP_Ma' => $SP_Ma, 
+      ]);
+        Session::flash('add-success','Thêm sản phẩm thành công');
       return redirect()->route('new-product');
     }
 

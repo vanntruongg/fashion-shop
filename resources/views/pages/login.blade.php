@@ -23,10 +23,14 @@
                 @if(session()->has('invalid-username'))
                     <span class="text-14 text-red-500">{{session()->get('invalid-username')}}</span>
                 @endif
+                
             </div>
             <div class="mb-4 w-[60%] relative">
                 <i class="fa-solid fa-key absolute ml-4 -translate-y-1/2 top-1/2"></i>
                 <input type="password" name="password" class="w-full px-10 py-4 rounded-lg bg-slate-200">
+                @if(session()->has('incorrect-password'))
+                    <span class="text-14 text-red-500">{{session()->get('incorrect-password')}}</span>
+                @endif
                 @if(session()->has('incorrect-password'))
                     <span class="text-14 text-red-500">{{session()->get('incorrect-password')}}</span>
                 @endif

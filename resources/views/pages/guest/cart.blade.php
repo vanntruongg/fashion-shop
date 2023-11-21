@@ -5,7 +5,7 @@
   <div class="max-w-[960px] mx-auto">
     <h1 class="pb-6 text-18 font-serif font-semibold uppercase">Giỏ Hàng</h1>
     <div class="">
-      <div class="grid grid-cols-12 pb-2 text-gray-500 text-14 font-medium border-b">
+      <div class="grid grid-cols-12 gap-6 pb-2 text-gray-500 text-14 font-medium border-b">
         <span class="col-span-6">Sản phẩm</span>
         <span class="col-span-2">Đơn giá</span>
         <span class="col-span-2">Số lượng</span>
@@ -13,13 +13,12 @@
       </div>
       
       @foreach ($products as $product)
-      <div class="flex items-center gap-4">
-        <div class="col-span-1">
-          <input type="checkbox" name="" class="checkboxItem" data-product-id={{$product->CTGH_Ma}}>
-        </div>
-          <div class="grid grid-cols-12 items-center py-4 border-b">
-            <div class="col-span-5 flex items-center gap-4">
+          <div class="grid grid-cols-12 gap-6 items-center py-4 border-b">
+            <div class="col-span-6 flex items-center gap-4">
               {{-- <img src={{$product->SP_HinhAnh}} alt="img-product" class="w-24"> --}}
+              <div class="">
+                <input type="checkbox" name="" class="checkboxItem" data-product-id={{$product->CTGH_Ma}}>
+              </div>
               <img src="https://img.freepik.com/free-photo/white-t-shirts-with-copy-space-gray-background_53876-104920.jpg?size=626&ext=jpg&ga=GA1.1.1120850249.1671386548&semt=sph" alt="" class="w-24">
               <div class="flex flex-col items-start text-14">
                 <span>{{$product->SP_Ten}}</span>
@@ -45,10 +44,9 @@
             </div>
             <div class="price col-span-2 font-semibold" data-product-price="{{ $product->SP_Gia * $product->CTGH_SoLuong}}">{{number_format($product->SP_Gia * $product->CTGH_SoLuong, 0, ',', '.')}}đ</div>
           </div>
-      </div>
       @endforeach
       <div class="flex flex-col items-end gap-4 my-6">
-        <p>Tổng tiền: <span class="totalPrice font-bold">45.650.000đ</span></p>
+        <p>Tổng tiền: <span class="totalPrice font-bold">0đ</span></p>
         {{-- <a href="{{route('checkout')}}" class="text-primary-600 text-20 font-semibold uppercase px-8 py-2 border-2 border-primary-600 rounded-lg transition-all duration-500 hover:bg-primary-600 hover:text-white">Thanh toán</a> --}}
         <button id="payment" class="text-primary-600 text-20 font-semibold uppercase px-8 py-2 border-2 border-primary-600 rounded-lg transition-all duration-500 hover:bg-primary-600 hover:text-white">Thanh toán</button>
       </div>

@@ -34,6 +34,9 @@ class CartContronller extends Controller
     }
 
     function requestAddProduct(Request $request) {
+        if(!Auth::check()) {
+            return redirect()->route('login');
+        }
         // dd($request);
         $productId = $request->input('product_id');
         $quantity = $request->input('quantity');
@@ -43,8 +46,15 @@ class CartContronller extends Controller
             $this->addToCart($productId, $quantity);
             return redirect()->route('products');
         } else if ($action === 'add_and_checkout') {
-            $this->addToCart($productId, $quantity);
-            return redirect()->route('checkout');
+            $id = $this->addToCart($productId, $quantity);
+            $product = DB::table('chitietgiohang')
+                        ->join('sanpham', 'sanpham.Sp_Ma', '=', 'chitietgiohang.Sp_Ma')
+                        ->where('CTGH_Ma', $id)
+                        ->select("sanpham.SP_HinhAnh", "sanpham.SP_Ten", "sanpham.SP_Gia", "chitietgiohang.CTGH_SoLuong")
+                        ->get();
+            $totalPrice = $product[0]->SP_Gia * $product[0]->CTGH_SoLuong;
+            $user = DB::table('users')->where("ND_Ma", Auth::id());
+            return view('pages.guest.checkout', ['products' => $product, 'totalPrice' => $totalPrice, "user" => $user]);
         }
     }
 
@@ -73,20 +83,32 @@ class CartContronller extends Controller
 
         if ($cartProduct) {
             // Nếu sản phẩm đã tồn tại trong giỏ hàng, cập nhật số lượng
-            DB::table('chitietgiohang')
+            $updatedRow = DB::table('chitietgiohang')
                 ->where('GH_Ma', $cartId)
                 ->where('SP_Ma', $productId)
                 ->update([
                     'CTGH_SoLuong' => $cartProduct->CTGH_SoLuong + $quantity
                 ]);
+
+                // Lấy giá trị của trường CTGH_Ma sau khi cập nhật
+                if ($updatedRow) {
+                    $updatedCTGH_Ma = DB::table('chitietgiohang')
+                        ->where('GH_Ma', $cartId)
+                        ->where('SP_Ma', $productId)
+                        ->value('CTGH_Ma');
+                    return $updatedCTGH_Ma;
+                }
         } else {
             // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm mới sản phẩm
-            DB::table('chitietgiohang')->insert([
+            $id = DB::table('chitietgiohang')->insertGetId([
                 'GH_Ma' => $cartId,
                 'SP_Ma' => $productId,
                 'CTGH_SoLuong' => $quantity
             ]);
+
+            return $id;
         }
+
     }
 
 

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+
 class UserController extends Controller
 {
     public function newUser() {
@@ -44,13 +45,36 @@ class UserController extends Controller
             'ND_avt' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ], $messages);
     
-        $avatar = $request->file('ND_avt');
-        if ($avatar) {
-            $avatarPath = $avatar->store('images/users', 'public');
-            $avatarUrl = Storage::url($avatarPath);
-        } else {
-            $avatarUrl = '/storage/images/admin/user_default.png';
-        }
+        
+//         // if ($avatar) {
+//         //     // $avatarPath = $avatar->store('public/images/users');
+//         //     // $avatarUrl = Storage::url($avatarPath);
+//         //     $avatarPath = $avatar->storeAs('public/images/users', $avatar->hashName());
+//         //     $avatarUrl = Storage::url($avatarPath);
+//         // } else {
+//         //     $avatarUrl = '/storage/images/admin/user_default.png';
+//         // }
+//         if($request->files->has('user-img')) {
+//             $file = $request->file('user-img');
+//             $userImg = $request->file('user-img')->getClientOriginalName();
+      
+//             $avtdb = '/storage/images/users/'. $userImg ;
+//             $path = 'public/storage/images/users/';
+      
+//             $file->move(base_path($path), $userImg );
+//             $avatarUrl = $avtdb;
+//           } else {
+//             $avatarUrl = '/storage/images/admin/user_default.png';
+//           }
+// =======
+//         $avatar = $request->file('ND_avt');
+//         if ($avatar) {
+//             $avatarPath = $avatar->store('images/users', 'public');
+//             $avatarUrl = Storage::url($avatarPath);
+//         } else {
+//             $avatarUrl = '/storage/images/admin/user_default.png';
+//         }
+// >>>>>>> main
         //nd mới
         $user = User::firstOrNew(['email' => $request->input('email')], [
             'ND_VT' => $request->input('ND_VT'),
@@ -80,6 +104,22 @@ class UserController extends Controller
 
     public function updateUsers($id,Request $request) {
         $user = User::find($id);
+        if ($request->hasFile('user-img')) {
+            $oldImg = $user->ND_avt;
+            $oldImagePath = public_path('storage/images/users/' . $oldImg);
+            if (file_exists($oldImagePath)) {
+              unlink($oldImagePath); // Xóa ảnh cũ
+          }
+            $file = $request->file('user-img');
+            $userImg = $file->getClientOriginalName();
+        
+            $avtdb = '/storage/images/users/'. $userImg;
+            $path = 'public/storage/images/users/';
+      
+            $file->move(base_path($path), $userImg);
+            $avatarUrl = $avtdb;
+          } else {
+            $avatarUrl  = $user->ND_avt;
         $avatar = $request->file('ND_avt');
         if ($avatar) {
             $avatarPath = $avatar->store('public/images/users');
@@ -99,6 +139,7 @@ class UserController extends Controller
           $ND_SDT = $request->input('ND_SDT');
           $email = $request->input('email');
           $ND_Diachi = $request->input('ND_Diachi');
+          $password = $request->input('password');
           
           DB::table('users')
             ->where('id', $id)
@@ -109,10 +150,11 @@ class UserController extends Controller
               'ND_SDT' => $ND_SDT,
               'email' => $email,
               'ND_Diachi' => $ND_Diachi,
-              'ND_avt' => $avatarUrl
+              'ND_avt' => $avatarUrl,
+              'password' => Hash::make($password)
             ]);
           Session::flash('update-success', 'Cập nhật người dùng thành công.');
-          return redirect()->route('admin-users');
+          return redirect()->route('admin-users',compact('password'));
     }   
     public function delete(Request $request)
     {

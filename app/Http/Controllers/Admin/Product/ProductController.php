@@ -31,29 +31,10 @@ class ProductController extends Controller
     return view('pages.admin.product.new-product',compact('loaisanpham','mausac','kichthuoc','soluong'));
     }
     public function createProduct(Request $request) {
-
-        //dd($request->files->has('product_img'));
-       
-
-        //dd($file, $productImg);
-        //dd($productImg);
-        //$productImg = $request->file('product-img');
-        //dd($productImg->originalName);
-        if ($request->files->has('product-img')) {
-          //$linkImgPath = $productImg->store('public/images/products');
-          
-          $file = $request->file('product-img');
-          $productImg = $request->file('product-img')->getClientOriginalName();
-
-          $avtdb = '/storage/images/products/'.$productImg;
-          $path = 'public/storage/images/products/';
-
-          //dd($avtdb, $path, $linkImgPath, $pro);
-
-          $file->move(base_path($path), $productImg);
-
-          $productImgURL = $avtdb;
-          //$productImgURL = Storage::url($linkImgPath);
+        $productImg = $request->file('product-img');
+        if ($productImg) {
+          $linkImgPath = $productImg->store('public/images/products');
+          $productImgURL = Storage::url($linkImgPath);
         } else {
           $productImgURL = '/storage/images/admin/shirt_default.png';
         }
@@ -118,18 +99,25 @@ class ProductController extends Controller
     ->where('SP_Ma', '=', $id)
     ->first();
 
-    $productImg = $request->file('product-img');
-        if ($productImg) {
-          $linkImgPath = $productImg->store('public/images/products');
-          $productImgURL = Storage::url($linkImgPath);
-          $productLinkImg = Storage::url($product->SP_HinhAnh);
+    if ($request->hasFile('product-img')) {
+      $oldImg = $product->SP_HinhAnh;
+      $oldImagePath = public_path('storage/images/products/' . $oldImg);
+      if (file_exists($oldImagePath)) {
+        unlink($oldImagePath); // Xóa ảnh cũ
+    }
+      $file = $request->file('product-img');
+      $productImg = $file->getClientOriginalName();
+  
+      // Kiểm tra xem sản phẩm đã có ảnh hay chưa
+      $avtdb = '/storage/images/products/'. $productImg;
+      $path = 'public/storage/images/products/';
 
-          if (File::exists($productLinkImg)) {
-            File::delete($productLinkImg);
-          }
-        } else {
-          $productImgURL = $product->SP_HinhAnh;
-        }
+      $file->move(base_path($path),$productImg);
+      $productImgURL = $avtdb;
+    } else {
+      $productImgURL = '/storage/images/admin/shirt_default.png';
+    }
+
 
     $SP_LSP = $request->input('SP_LSP');
     $SP_Ten = $request->input('SP_Ten');
@@ -160,29 +148,49 @@ class ProductController extends Controller
     return redirect()->route('admin-product',compact('id','product','product_details'));
   }
   public function delete(Request $request)
-  {
+{
     $product_id = $request->input('product_id');
     
-    // Kiểm tra xem có chi tiết sản phẩm nào liên quan không
-    $hasDetails = DB::table('chitietsanpham')
+    // Kiểm tra xem có chi tiết hóa đơn nhập nào liên quan không
+    $hasDetailsInInvoice = DB::table('chitiethoadonnhap')
         ->where('SP_Ma', '=', $product_id)
         ->exists();
 
-    // Nếu có chi tiết sản phẩm, hãy xóa chúng trước
-    if ($hasDetails) {
-        DB::table('chitietsanpham')
+    // Nếu có chi tiết hóa đơn nhập,Xóa
+    if ($hasDetailsInInvoice) {
+        //dschitiethoadonnhap
+        $relatedInvoices = DB::table('chitiethoadonnhap')
             ->where('SP_Ma', '=', $product_id)
+            ->pluck('HDN_Ma');
+            
+        DB::table('chitiethoadonnhap')
+            ->where('SP_Ma', '=', $product_id)
+            ->delete();
+
+        DB::table('hoadonnhap')
+            ->whereIn('HDN_Ma', $relatedInvoices)
             ->delete();
     }
 
-    // Sau đó mới xóa sản phẩm chính
+    $hasDetails = DB::table('chitietsanpham')
+    ->where('SP_Ma', '=', $product_id)
+    ->exists();
+
+// Nếu có chi tiết sản phẩm, hãy xóa chúng trước
+    if ($hasDetails) {
+    DB::table('chitietsanpham')
+        ->where('SP_Ma', '=', $product_id)
+        ->delete();
+    }
+
+    // Xóa sản phẩm chính
     DB::table('sanpham')
         ->where('SP_Ma', '=', $product_id)
         ->delete();
 
     Session::flash('delete-success', 'Xóa sản phẩm thành công');
     return redirect()->route('admin-product');
-  }
+}
   public function searchProduct(Request $request) {
     $SP_Ten = $request->input('SP_Ten');
     $results = DB::table('sanpham')

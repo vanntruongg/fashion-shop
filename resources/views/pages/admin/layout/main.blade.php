@@ -177,7 +177,7 @@
         {{--  --}}
         <div class="overlay-delete hidden fixed inset-0 bg-black bg-opacity-20 z-40 transition-all animate-fadeIn duration-500"></div>
         <div class="modal-delete-importwarehouse hidden fixed top-[25%] left-[35%] bg-white p-6 py-10 min-h-[120px] rounded-lg z-50 animate-fadeIn">
-          <h2 class="text-18 mb-10">Bạn có chắc chắn muốn xóa loại sản phẩm này?</h2>
+          <h2 class="text-18 mb-10">Bạn có chắc chắn muốn xóa hóa đơn nhập này?</h2>
           <form
             action="{{ route('delete-importwarehouse')}}"
             method="post"

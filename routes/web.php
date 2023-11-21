@@ -37,7 +37,7 @@ Route::get('/product/detail/{id}', [ProductsController::class, 'product_detail']
 
 Route::get('/product/delete/{id}', [CartContronller::class, 'deleteProduct'])->name('products.delete');
 
-Route::get("/search", [ProductsController::class, 'search'])->name("search-product");
+Route::get("/search", [ProductsController::class, 'search'])->name("user-search-product");
 
 //contact
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
@@ -51,7 +51,8 @@ Route::post('/update-quantity-cart', [CartContronller::class, 'updateQuantity'])
 Route::get('/get-checkout', [CheckOutContronller::class, 'getProducts'])->name('checkout');
 Route::post('/checkout', [CheckOutContronller::class, 'index'])->name('checkout');
 Route::post('/create-order', [CheckOutContronller::class, 'createOrder'])->name('create-order');
-
+Route::post('/handle-checkout', [CheckOutContronller::class, 'handleCheckout'])->name('handle-checkout');
+Route::get('/order-success', [CheckOutContronller::class, 'orderSuccess'])->name('order-success');
 //admin routes 
 
 //Auth
@@ -60,7 +61,7 @@ Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
 //logout
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 //Register
 Route::get('/register', [AuthController::class, 'registerview'])->name('register');

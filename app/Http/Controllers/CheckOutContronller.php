@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -30,10 +32,46 @@ class CheckOutContronller extends Controller
         foreach($products as $product) {
             $totalPrice += $product->SP_Gia * $product->CTGH_SoLuong;
         }
-        return view('pages.guest.checkout', compact('products', 'totalPrice'));
+        $userId = Auth::id();
+        $user = DB::table("users")
+        ->select("ND_Ho", "ND_Ten", "ND_SDT", "ND_Diachi", "email")
+        ->where('id', $userId)->first();
+
+        return view('pages.guest.checkout', ['products' => $products, 'totalPrice' => $totalPrice, "user" => $user]);
     }
 
     function createOrder(Request $request) {
         dd($request);
+    }
+
+    function handleCheckout(Request $request) {
+        $products = json_decode($request->products);
+        $totalPrice = $request->totalPrice;
+        $userId = Auth::id();
+        $currentDate = Carbon::today();
+        $formattedDate = $currentDate->format('Y-m-d H:i:s');
+        // dd($totalPrice);
+        $data = [
+            'ND_id' =>  $userId,
+            'HD_Ngay' => $formattedDate,
+            'HD_TongTien' => $totalPrice,
+        ];
+        
+        $orderId = DB::table('hoadon')->insertGetId($data);
+        foreach ($products as $product) {
+            $data = [
+                'CTHD_SoLuong' => $product->CTGH_SoLuong,
+                'CTHD_DonGia' => $product->SP_Gia,
+                'SP_Ma' => $product->SP_Ma,
+                'HD_Ma' => $orderId ,
+            ];
+            DB::table('chitiethoadon')->insert($data);
+            DB::table('chitietgiohang')->where('CTGH_Ma', $product->CTGH_Ma)->delete();
+        }
+        return redirect()->route('order-success');
+    }
+
+    function orderSuccess() {
+        return view('pages.guest.order-success');
     }
 }

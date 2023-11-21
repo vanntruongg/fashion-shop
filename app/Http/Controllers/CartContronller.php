@@ -19,13 +19,13 @@ class CartContronller extends Controller
         $userId = Auth::id();
 
         // Sử dụng câu lệnh SQL trực tiếp để lấy tất cả sản phẩm của người dùng đang đăng nhập
-        $carts = DB::table('giohang')
+        $products = DB::table('giohang')
         ->join('chitietgiohang', 'giohang.GH_Ma', '=', 'chitietgiohang.GH_Ma')
         ->join('sanpham', 'chitietgiohang.SP_Ma', '=', 'sanpham.SP_Ma')
         ->where('giohang.ND_id', $userId)
         ->select('chitietgiohang.*', 'sanpham.SP_Ten', 'sanpham.SP_Gia')
         ->get();
-        dd($carts);
+        // dd($carts);
 
         // $carts = DB::table('giohang')->get();
 

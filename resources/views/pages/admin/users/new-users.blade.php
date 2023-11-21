@@ -65,7 +65,7 @@
             <input
               id="input-file-img"
               type="file"
-              name="ND_avt"
+              name="user-img"
               hidden
               class="py-8 text-14 border border-slate-500 file:ml-2 rounded-lg border-dashed text-slate-500 cursor-pointer file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-none file:bg-[#5490f0] file:text-white file:cursor-pointer file:hover:bg-blue-100"
             >

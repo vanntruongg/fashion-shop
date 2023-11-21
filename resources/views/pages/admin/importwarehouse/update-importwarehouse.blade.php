@@ -94,7 +94,7 @@
                                     </div>
                         
                                     <input
-                                      id="input-file-img[]"
+                                      id="input-file-img"
                                       type="file"
                                       name="product-img[]"
                                       placeholder=""
@@ -137,7 +137,7 @@
                                           name="SP_Ten[]"
                                           value="{{ $chitiet->SP_Ten }}"
                                           class="py-1.5 px-2 w-full outline-none rounded-lg placeholder:text-14 text-14"
-                                          readonly  
+                                          
                                         >
                                       </div>
                                     </div>
@@ -154,7 +154,7 @@
                                           name="SP_Chatlieu[]"
                                           value="{{ $chitiet->SP_ChatLieu }}"
                                           class="py-1.5 px-2 w-full outline-none rounded-lg placeholder:text-14 text-14"
-                                          readonly                                          
+                                                                                  
                                           >
                                       </div>
                                     </div>
@@ -167,7 +167,7 @@
                                       <label
                                         for="SP_Mausac"
                                         class="text-slate-500 text-14"
-                                        readonly  
+                                      
                                       >
                                         Màu Sắc
                                       </label><br>
@@ -214,7 +214,7 @@
                                             name="SP_Gia[]"
                                             value="{{ $chitiet->CTHDN_Gia }}"
                                             class="py-1.5 px-2 w-full outline-none rounded-lg placeholder:text-14 text-14"
-                                            readonly
+                                            
                                           >
                                         </div>
                                     </div>
